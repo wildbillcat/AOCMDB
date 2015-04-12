@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace AOCMDB.Models
 {
@@ -62,31 +63,37 @@ namespace AOCMDB.Models
         /// <summary>
         /// This field describes the network resources used by the application. Will be populated using a tinymce editor
         /// </summary>
+        [AllowHtml]
         public string NetworkDiagramOrInventory { get; set; }
-        
+
         /// <summary>
         /// List of administrative tasks associated with the Application. Will be populated using a tinymce editor
         /// </summary>
+        [AllowHtml]
         public string AdministrativeProcedures { get; set; }
 
         /// <summary>
         /// This is a list of general Contact Information. Will be populated using a tinymce editor
         /// </summary>
+        [AllowHtml]
         public string ContactInformation { get; set; }
 
         /// <summary>
         /// This is a list of general Client Interface Information and Validation steps for Client Interface(s). Will be populated using a tinymce editor
         /// </summary>
+        [AllowHtml]
         public string ClientConfigurationAndValidation { get; set; }
 
         /// <summary>
         /// This is a list of general Server Interface Information and validation steps for Server Interface(s). Will be populated using a tinymce editor
         /// </summary>
+        [AllowHtml]
         public string ServerConfigurationandValidation { get; set; }
-        
+
         /// <summary>
         /// This is a list of validation steps for Server Interface(s). Will be populated using a tinymce editor
         /// </summary>
+        [AllowHtml]
         public string RecoveryProcedures { get; set; }
 
         /// <summary>
