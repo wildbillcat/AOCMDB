@@ -102,6 +102,11 @@ namespace AOCMDB.Models
         /// </summary>
         private ICollection<int> _UpstreamApplicationDependency;
 
+        public ICollection<int> GetUpstreamApplicationDependency()
+        {
+            return _UpstreamApplicationDependency;
+        }
+
         /// <summary>
         /// This variable stores a list of all known upstream dependencies
         /// </summary>
@@ -151,6 +156,28 @@ namespace AOCMDB.Models
                     return LatestApplicationVersions;
                 }
             }
+        }
+
+
+        public Application GenerateNewRevision()
+        {
+            return new Application()
+            {
+                ApplicationId = this.ApplicationId,
+                DatabaseRevision = this.DatabaseRevision++,
+                CreatedByUser = this.CreatedByUser,
+                CreatedAt = DateTime.Now,
+                ApplicationName = ApplicationName,
+                GlobalApplicationID = this.GlobalApplicationID,
+                SiteURL = this.SiteURL,
+                NetworkDiagramOrInventory = this.NetworkDiagramOrInventory,
+                AdministrativeProcedures = this.AdministrativeProcedures,
+                ContactInformation = this.ContactInformation,
+                ClientConfigurationAndValidation = this.ClientConfigurationAndValidation,
+                ServerConfigurationandValidation = this.ServerConfigurationandValidation,
+                RecoveryProcedures = this.RecoveryProcedures,
+                _UpstreamApplicationDependency = this.GetUpstreamApplicationDependency()
+            };
         }
         
 
