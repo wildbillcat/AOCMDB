@@ -12,37 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CreatedByUser)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.ApplicationName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.GlobalApplicationID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SiteURL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NetworkDiagramOrInventory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdministrativeProcedures)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContactInformation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ClientConfigurationAndValidation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ServerConfigurationandValidation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RecoveryProcedures)
+            @Html.DisplayNameFor(model => model.DatabaseRevision)
         </th>
         <th></th>
     </tr>
@@ -50,42 +26,17 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CreatedByUser)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedAt)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.ApplicationName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.GlobalApplicationID)
-        </td>
+        </td>    
         <td>
-            @Html.DisplayFor(modelItem => item.SiteURL)
-        </td>
+            @Html.DisplayFor(modelItem => item.DatabaseRevision)
+        </td>    
         <td>
-            @Html.DisplayFor(modelItem => item.NetworkDiagramOrInventory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AdministrativeProcedures)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactInformation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClientConfigurationAndValidation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServerConfigurationandValidation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RecoveryProcedures)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicationId, version=item.DatabaseRevision }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ApplicationId, version = item.DatabaseRevision })
         </td>
     </tr>
 }

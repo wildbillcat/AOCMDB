@@ -17,17 +17,30 @@ namespace AOCMDB.Controllers
         // GET: Applications
         public ActionResult Index()
         {
-            return View(db.Applications.ToList());
+            //  var query = (
+            //  from contact in context.Contacts
+            //  group contact by contact.LastName.Substring(0, 1) into contactGroup
+            //  select new { FirstLetter = contactGroup.Key, Names = contactGroup }).
+            //    OrderBy(letter => letter.FirstLetter);
+            //ToList()
+            List<Application> LatestApplicationVersions = db.Applications.GroupBy(p => p.ApplicationId)
+                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault()).ToList();
+            //List<Application> apps = db.Applications
+            //    .GroupBy(p => p.ApplicationId)
+            //    .Select(g => g.Max()).ToList();
+            //Dictionary<int, Application> thing = db.Applications.GroupBy(P => P.ApplicationId).ToDictionary(p => p.Key);
+            return View(LatestApplicationVersions);
         }
 
         // GET: Applications/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? version)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Application application = db.Applications.Find(id);
+            //Application application = db.Applications.Find(new int[] { (int)id, db.Applications.Where(P => P.ApplicationId == id).Max(p => p.DatabaseRevision) });
+            Application application = db.Applications.Find(new int[] { (int)id, (int)version });
             if (application == null)
             {
                 return HttpNotFound();
@@ -90,31 +103,32 @@ namespace AOCMDB.Controllers
             return View(application);
         }
 
+        //Delete should not be available, since everything should be under version control.
         // GET: Applications/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Application application = db.Applications.Find(id);
-            if (application == null)
-            {
-                return HttpNotFound();
-            }
-            return View(application);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Application application = db.Applications.Find(id);
+        //    if (application == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(application);
+        //}
 
-        // POST: Applications/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Application application = db.Applications.Find(id);
-            db.Applications.Remove(application);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Applications/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Application application = db.Applications.Find(id);
+        //    db.Applications.Remove(application);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

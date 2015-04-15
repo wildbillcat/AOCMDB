@@ -119,7 +119,7 @@ namespace AOCMDB.Models
                 {
                     //Find all of the latest copies of applications
                     List<Application> LatestApplicationVersions = _dbContext.Applications.GroupBy(p => p.ApplicationId)
-                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).First())//Latest Application Revisions
+                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault())//Latest Application Revisions
                         .Where(MostRecentApplicationRevison => _UpstreamApplicationDependency.Contains(MostRecentApplicationRevison.ApplicationId))
                         .ToList();//Select all the latest revisions of upstream applications
                     return LatestApplicationVersions;
@@ -150,7 +150,7 @@ namespace AOCMDB.Models
                 {
                     //Find all of the latest copies of applications
                     List<Application> LatestApplicationVersions = _dbContext.Applications.GroupBy(p => p.ApplicationId)
-                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).First())//Latest Application Revisions
+                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault())//Latest Application Revisions
                         .Where(MostRecentApplicationRevison => MostRecentApplicationRevison.UpstreamApplicationDependency.Contains(this))
                         .ToList();//Select all the latest application revisions which contain an upstream reference to this application                   
                     return LatestApplicationVersions;
