@@ -39,8 +39,7 @@ namespace AOCMDB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Application application = db.Applications.Find(new int[] { (int)id, db.Applications.Where(P => P.ApplicationId == id).Max(p => p.DatabaseRevision) });
-            Application application = db.Applications.Find(new int[] { (int)id, (int)version });
+            Application application = db.Applications.Find((int)id, (int)version);
             if (application == null)
             {
                 return HttpNotFound();
@@ -59,8 +58,20 @@ namespace AOCMDB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ApplicationId,DatabaseRevision,CreatedByUser,CreatedAt,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] Application application)
+        public ActionResult Create([Bind(Include = "ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] Application application)
         {
+            application.DatabaseRevision = 1;
+            application.CreatedAt = DateTime.Now;
+            if (User.Identity.IsAuthenticated)
+            {
+                application.CreatedByUser = User.Identity.Name;
+            }
+            else
+            {
+                application.CreatedByUser = "Unauthenticated user!";
+            }
+            ModelState["CreatedByUser"].Errors.Clear();
+            application.ApplicationId = db.Applications.Max(p => p.ApplicationId) + 1;
             if (ModelState.IsValid)
             {
                 db.Applications.Add(application);
@@ -72,13 +83,13 @@ namespace AOCMDB.Controllers
         }
 
         // GET: Applications/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int? version)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Application application = db.Applications.Find(id);
+            Application application = db.Applications.Find((int)id, (int)version);
             if (application == null)
             {
                 return HttpNotFound();
@@ -93,12 +104,21 @@ namespace AOCMDB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ApplicationId,DatabaseRevision,CreatedByUser,CreatedAt,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] Application application)
         {
-            if (ModelState.IsValid)
+            Application newAppTest;
+            if (ModelState.IsValid)//If valid, try saving. Else return to edit page with validation errors
             {
-                throw new NotImplementedException();//Logic to implement version control has to be added.
-                db.Entry(application).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                newAppTest = db.Applications.Find(application.ApplicationId, (application.DatabaseRevision+1));
+                if(newAppTest == null)//Newer version of application not found! Generate one and save it.
+                {
+                    newAppTest = application.GenerateNewRevision();
+                    db.Applications.Add(newAppTest);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {//A newer revision of the application has been submitted! Return the user to the edit page with the latest revision
+                    application = newAppTest;
+                }
             }
             return View(application);
         }

@@ -164,7 +164,7 @@ namespace AOCMDB.Models
             return new Application()
             {
                 ApplicationId = this.ApplicationId,
-                DatabaseRevision = this.DatabaseRevision++,
+                DatabaseRevision = this.DatabaseRevision+1,
                 CreatedByUser = this.CreatedByUser,
                 CreatedAt = DateTime.Now,
                 ApplicationName = ApplicationName,
