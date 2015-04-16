@@ -111,34 +111,7 @@ namespace AOCMDB.Controllers
                 }
             }
             return View(application);
-        }
-
-        //Delete should not be available, since everything should be under version control.
-        // GET: Applications/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Application application = db.Applications.Find(id);
-        //    if (application == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(application);
-        //}
-
-        //// POST: Applications/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Application application = db.Applications.Find(id);
-        //    db.Applications.Remove(application);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        }       
 
         protected override void Dispose(bool disposing)
         {
@@ -150,3 +123,5 @@ namespace AOCMDB.Controllers
         }
     }
 }
+
+
