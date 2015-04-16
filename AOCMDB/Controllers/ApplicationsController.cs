@@ -75,7 +75,7 @@ namespace AOCMDB.Controllers
         // GET: Applications/Edit/5
         public ActionResult Edit(int? id, int? version)
         {
-            if (id == null)
+            if (id == null || version == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
