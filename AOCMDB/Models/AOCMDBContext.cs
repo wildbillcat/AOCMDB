@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Collections.Generic;
 
 
@@ -14,9 +15,14 @@ namespace AOCMDB.Models
             Database.SetInitializer<AOCMDBContext>(new DefaultTestDataInitializer());//Reinitialize the database after everystartup
 #endif
         }
-
-
+        
         public DbSet<Application> Applications { get; set; }
+
+        public IEnumerable<Application> GetLatestApplicationVersions()
+        {
+            return this.Applications.GroupBy(p => p.ApplicationId)
+                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault());
+        }
 
     }
 

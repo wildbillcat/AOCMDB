@@ -16,26 +16,16 @@ namespace AOCMDB.Controllers
 
         // GET: Applications
         public ActionResult Index()
-        {
-            //  var query = (
-            //  from contact in context.Contacts
-            //  group contact by contact.LastName.Substring(0, 1) into contactGroup
-            //  select new { FirstLetter = contactGroup.Key, Names = contactGroup }).
-            //    OrderBy(letter => letter.FirstLetter);
-            //ToList()
-            List<Application> LatestApplicationVersions = db.Applications.GroupBy(p => p.ApplicationId)
-                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault()).ToList();
-            //List<Application> apps = db.Applications
-            //    .GroupBy(p => p.ApplicationId)
-            //    .Select(g => g.Max()).ToList();
-            //Dictionary<int, Application> thing = db.Applications.GroupBy(P => P.ApplicationId).ToDictionary(p => p.Key);
+        {            
+            List<Application> LatestApplicationVersions = db.GetLatestApplicationVersions().ToList();
+
             return View(LatestApplicationVersions);
         }
 
         // GET: Applications/Details/5
         public ActionResult Details(int? id, int? version)
         {
-            if (id == null)
+            if (id == null || version == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
