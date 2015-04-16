@@ -19,7 +19,7 @@ namespace AOCMDB.Controllers
         {            
             List<Application> LatestApplicationVersions = db.GetLatestApplicationVersions().ToList();
 
-            return View(LatestApplicationVersions);
+            return View("Index", LatestApplicationVersions);
         }
 
         // GET: Applications/Details/5
@@ -34,13 +34,13 @@ namespace AOCMDB.Controllers
             {
                 return HttpNotFound();
             }
-            return View(application);
+            return View("Details", application);
         }
 
         // GET: Applications/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Applications/Create
@@ -48,19 +48,24 @@ namespace AOCMDB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] Application application)
+        public ActionResult Create([Bind(Include = "CreatedByUser,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] Application application)
         {
             application.DatabaseRevision = 1;
             application.CreatedAt = DateTime.Now;
-            if (User.Identity.IsAuthenticated)
+
+            if (User != null && User.Identity.IsAuthenticated)
             {
                 application.CreatedByUser = User.Identity.Name;
             }
             else
             {
+#if DEBUG
                 application.CreatedByUser = "Unauthenticated user!";
+#else
+                new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+#endif
             }
-            ModelState["CreatedByUser"].Errors.Clear();
+            
             application.ApplicationId = db.Applications.Max(p => p.ApplicationId) + 1;
             if (ModelState.IsValid)
             {
@@ -69,7 +74,7 @@ namespace AOCMDB.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(application);
+            return View("Create", application);
         }
 
         // GET: Applications/Edit/5
@@ -84,7 +89,7 @@ namespace AOCMDB.Controllers
             {
                 return HttpNotFound();
             }
-            return View(application);
+            return View("Edit", application);
         }
 
         // POST: Applications/Edit/5
@@ -97,10 +102,23 @@ namespace AOCMDB.Controllers
             Application newAppTest;
             if (ModelState.IsValid)//If valid, try saving. Else return to edit page with validation errors
             {
+                if (User != null && User.Identity.IsAuthenticated)
+                {
+                    application.CreatedByUser = User.Identity.Name;
+                }
+                else
+                {
+#if DEBUG
+                    application.CreatedByUser = "Unauthenticated user!";
+#else
+                    new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+#endif
+                }
                 newAppTest = db.Applications.Find(application.ApplicationId, (application.DatabaseRevision+1));
                 if(newAppTest == null)//Newer version of application not found! Generate one and save it.
                 {
                     newAppTest = application.GenerateNewRevision();
+
                     db.Applications.Add(newAppTest);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -110,7 +128,7 @@ namespace AOCMDB.Controllers
                     application = newAppTest;
                 }
             }
-            return View(application);
+            return View("Edit", application);
         }       
 
         protected override void Dispose(bool disposing)
