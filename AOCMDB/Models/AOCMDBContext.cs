@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
-
+using System.Data.Common;
 
 namespace AOCMDB.Models
 {
@@ -15,7 +15,14 @@ namespace AOCMDB.Models
             Database.SetInitializer<AOCMDBContext>(new DefaultTestDataInitializer());//Reinitialize the database after everystartup
 #endif
         }
-        
+
+        public AOCMDBContext(DbConnection connection) : base(connection, true)
+        {
+#if DEBUG
+            Database.SetInitializer<AOCMDBContext>(new DefaultTestDataInitializer());//Reinitialize the database after everystartup
+#endif
+        }        
+
         public DbSet<Application> Applications { get; set; }
 
         public IEnumerable<Application> GetLatestApplicationVersions()
@@ -44,7 +51,16 @@ namespace AOCMDB.Models
             base.Seed(context);
         }
     }
-        
-    
+
+    public class DefaultStartDataInitializer : CreateDatabaseIfNotExists<AOCMDBContext>
+    {
+        protected override void Seed(AOCMDBContext context)
+        {
+            
+            base.Seed(context);
+        }
+    }
+
+
 }
 

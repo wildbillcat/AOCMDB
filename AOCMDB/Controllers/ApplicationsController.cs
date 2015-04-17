@@ -12,7 +12,17 @@ namespace AOCMDB.Controllers
 {
     public class ApplicationsController : Controller
     {
-        private AOCMDBContext db = new AOCMDBContext();
+        private AOCMDBContext db;
+
+        public ApplicationsController() : base()
+        {
+            db = new AOCMDBContext();
+        }
+
+        public ApplicationsController(AOCMDBContext ctx) : base()
+        {
+            db = ctx;
+        }        
 
         // GET: Applications
         public ActionResult Index()

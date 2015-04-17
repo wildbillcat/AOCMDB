@@ -10,20 +10,21 @@ namespace AOCMDB.UnitTests
     [TestClass]
     public class ApplicationsControllerTest
     {
+        AOCMDBContext context;
+        ApplicationsController controller;
+
         [TestInitialize]
         public void SetupTest()
         {
-            using (var context = new AOCMDBContext())
-            {
-                context.Database.CreateIfNotExists();
-            }
+            context = new AOCMDBContext(Effort.DbConnectionFactory.CreateTransient());
+            controller = new ApplicationsController(context);
         }
 
         [TestMethod]
         public void IndexActionReturnsIndexView()
         {
             string expected = "Index";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Index() as ViewResult;
 
@@ -37,7 +38,7 @@ namespace AOCMDB.UnitTests
         public void DetailsActionReturnsDetailsViewValidIDAndVersion()
         {
             string expected = "Details";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Details(1,1) as ViewResult;
 
@@ -47,7 +48,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewInValidID()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
             
             var result = controller.Details(13333, 1) as ViewResult;
 
@@ -57,7 +58,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewInValidVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Details(1, 93485) as ViewResult;
 
@@ -67,7 +68,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewInValidIDAndVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Details(1342354, 234234) as ViewResult;
 
@@ -77,7 +78,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewNullID()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Details(null, 1) as ViewResult;
 
@@ -86,7 +87,7 @@ namespace AOCMDB.UnitTests
 
         public void DetailsActionReturnsDetailsViewNullVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Details(1, null) as ViewResult;
 
@@ -95,7 +96,7 @@ namespace AOCMDB.UnitTests
 
         public void DetailsActionReturnsDetailsViewNullIDAndVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Details(null, null) as ViewResult;
 
@@ -108,7 +109,7 @@ namespace AOCMDB.UnitTests
         public void CreateActionReturnsCreateViewGET()
         {
             string expected = "Create";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Create() as ViewResult;
 
@@ -119,7 +120,7 @@ namespace AOCMDB.UnitTests
         public void CreateActionReturnsCreateViewPOSTValidParams()
         {
             string expected = "Index";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Create(
                 new Models.Application()
@@ -140,7 +141,7 @@ namespace AOCMDB.UnitTests
         public void CreateActionReturnsCreateViewPOSTInvalidParams()
         {
             string expected = "Create";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Create(
                 new Models.Application()
@@ -163,7 +164,7 @@ namespace AOCMDB.UnitTests
         public void EditActionReturnsEditView()
         {
             string expected = "Edit";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(2,1) as ViewResult;
 
@@ -173,7 +174,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditViewNullID()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(null, 1) as ViewResult;
 
@@ -183,7 +184,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditViewNullVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(1, null) as ViewResult;
 
@@ -193,7 +194,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditViewNullIDandVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(null, null) as ViewResult;
 
@@ -203,7 +204,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditViewInvalidID()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(23123555, 1) as ViewResult;
 
@@ -213,7 +214,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditViewInvalidVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(1, 23123555) as ViewResult;
 
@@ -223,7 +224,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditViewInvalidIDandVersion()
         {
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(23123555, 23123555) as ViewResult;
 
@@ -234,7 +235,7 @@ namespace AOCMDB.UnitTests
         public void EditActionReturnsEditViewSuccessfullPost()
         {
             string expected = "Index";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(
                 new Models.Application()
@@ -255,7 +256,7 @@ namespace AOCMDB.UnitTests
         public void EditActionReturnsEditViewOldRevisionPost()
         {
             string expected = "Edit";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(
                 new Models.Application()
@@ -276,7 +277,7 @@ namespace AOCMDB.UnitTests
         public void EditActionReturnsEditViewOldMissingGlobalAppIDPost()
         {
             string expected = "Edit";
-            ApplicationsController controller = new ApplicationsController();
+             
 
             var result = controller.Edit(
                 new Models.Application()
@@ -290,6 +291,15 @@ namespace AOCMDB.UnitTests
                 ) as ViewResult;
 
             Assert.AreEqual(expected, result.ViewName);
+        }
+    }
+
+    public class TestableApplicationsController : ApplicationsController
+    {
+
+        public TestableApplicationsController() : base()
+        {
+          //  this.db = 
         }
     }
 }

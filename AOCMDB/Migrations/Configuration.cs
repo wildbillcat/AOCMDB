@@ -9,7 +9,7 @@ namespace AOCMDB.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(AOCMDB.Models.AOCMDBContext context)
