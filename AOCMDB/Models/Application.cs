@@ -64,36 +64,42 @@ namespace AOCMDB.Models
         /// This field describes the network resources used by the application. Will be populated using a tinymce editor
         /// </summary>
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string NetworkDiagramOrInventory { get; set; }
 
         /// <summary>
         /// List of administrative tasks associated with the Application. Will be populated using a tinymce editor
         /// </summary>
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string AdministrativeProcedures { get; set; }
 
         /// <summary>
         /// This is a list of general Contact Information. Will be populated using a tinymce editor
         /// </summary>
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string ContactInformation { get; set; }
 
         /// <summary>
         /// This is a list of general Client Interface Information and Validation steps for Client Interface(s). Will be populated using a tinymce editor
         /// </summary>
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string ClientConfigurationAndValidation { get; set; }
 
         /// <summary>
         /// This is a list of general Server Interface Information and validation steps for Server Interface(s). Will be populated using a tinymce editor
         /// </summary>
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string ServerConfigurationandValidation { get; set; }
 
         /// <summary>
         /// This is a list of validation steps for Server Interface(s). Will be populated using a tinymce editor
         /// </summary>
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string RecoveryProcedures { get; set; }
 
         /// <summary>
