@@ -56,7 +56,6 @@ namespace AOCMDB.Models
     {
         protected override void Seed(AOCMDBContext context)
         {
-            
             base.Seed(context);
         }
     }

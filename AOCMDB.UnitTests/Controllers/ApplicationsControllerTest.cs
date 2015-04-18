@@ -3,7 +3,9 @@ using System.Web.Mvc;
 using AOCMDB.Controllers;
 using AOCMDB.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Web.ModelBinding;
 using System.Net;
+using Moq;
 
 namespace AOCMDB.UnitTests
 {
@@ -11,13 +13,13 @@ namespace AOCMDB.UnitTests
     public class ApplicationsControllerTest
     {
         AOCMDBContext context;
-        ApplicationsController controller;
+        TestableApplicationsController controller;
 
         [TestInitialize]
         public void SetupTest()
         {
             context = new AOCMDBContext(Effort.DbConnectionFactory.CreateTransient());
-            controller = new ApplicationsController(context);
+            controller = new TestableApplicationsController(context);
         }
 
         [TestMethod]
@@ -25,7 +27,6 @@ namespace AOCMDB.UnitTests
         {
             string expected = "Index";
              
-
             var result = controller.Index() as ViewResult;
 
             Assert.AreEqual(expected, result.ViewName);
@@ -120,40 +121,40 @@ namespace AOCMDB.UnitTests
         public void CreateActionReturnsCreateViewPOSTValidParams()
         {
             string expected = "Index";
-             
 
-            var result = controller.Create(
-                new Models.Application()
-                {
-                    ApplicationId = 96,
-                    DatabaseRevision = 1,
-                    CreatedByUser = "UnitTest",
-                    CreatedAt = DateTime.Now,
-                    ApplicationName = "TestBot 5000",
-                    GlobalApplicationID = 555
-                }
-                ) as ViewResult;
+            Application test = new Models.Application()
+            {
+                ApplicationId = 96,
+                DatabaseRevision = 1,
+                CreatedByUser = "UnitTest",
+                CreatedAt = DateTime.Now,
+                ApplicationName = "TestBot 5000",
+                GlobalApplicationID = 555
+            };
 
-            Assert.AreEqual(expected, result.ViewName);
+            controller.TestModel(test);
+
+            var result = controller.Create(test) as ViewResult;
+
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void CreateActionReturnsCreateViewPOSTInvalidParams()
         {
             string expected = "Create";
-             
 
-            var result = controller.Create(
-                new Models.Application()
-                {
-                    ApplicationId = 88,
-                    DatabaseRevision = 1,
-                    CreatedByUser = "UnitTest",
-                    CreatedAt = DateTime.Now,
-                    ApplicationName = "MerpBot 5000",
-                    GlobalApplicationID = 55475
-                }
-                ) as ViewResult;
+            Application test = new Models.Application()
+            {
+                ApplicationId = 88,
+                DatabaseRevision = 1,
+                CreatedByUser = "UnitTest",
+                CreatedAt = DateTime.Now,
+            };
+
+            controller.TestModel(test);
+
+            var result = controller.Create(test) as ViewResult;
 
             Assert.AreEqual(expected, result.ViewName);
         }
@@ -296,10 +297,14 @@ namespace AOCMDB.UnitTests
 
     public class TestableApplicationsController : ApplicationsController
     {
-
-        public TestableApplicationsController() : base()
+        public TestableApplicationsController(AOCMDBContext ctx) : base(ctx)
         {
-          //  this.db = 
+            ControllerContext = (new Mock<ControllerContext>()).Object;
         }
+        public void TestModel(Application Model)
+        {
+            this.TryValidateModel(Model);
+        }
+        
     }
 }

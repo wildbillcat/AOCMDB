@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AOCMDB.Models;
 
+
 namespace AOCMDB.Controllers
 {
     public class ApplicationsController : Controller
@@ -74,9 +75,9 @@ namespace AOCMDB.Controllers
 #else
                 new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 #endif
-            }
-            
+            }            
             application.ApplicationId = db.Applications.Max(p => p.ApplicationId) + 1;
+
             if (ModelState.IsValid)
             {
                 db.Applications.Add(application);
