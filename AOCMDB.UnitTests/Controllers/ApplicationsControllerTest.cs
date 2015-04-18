@@ -38,8 +38,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewValidIDAndVersion()
         {
-            string expected = "Details";
-             
+            string expected = "Details";             
 
             var result = controller.Details(1,1) as ViewResult;
 
@@ -49,9 +48,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewInValidID()
         {
-             
-            
-            var result = controller.Details(13333, 1) as ViewResult;
+            var result = controller.Details(13333, 1) as HttpNotFoundResult;
 
             Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
         }
@@ -59,9 +56,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewInValidVersion()
         {
-             
-
-            var result = controller.Details(1, 93485) as ViewResult;
+            var result = controller.Details(1, 93485) as HttpNotFoundResult;
 
             Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
         }
@@ -69,37 +64,29 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void DetailsActionReturnsDetailsViewInValidIDAndVersion()
         {
-             
-
-            var result = controller.Details(1342354, 234234) as ViewResult;
+            var result = controller.Details(1342354, 234234) as HttpNotFoundResult;
 
             Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
         }
 
         [TestMethod]
         public void DetailsActionReturnsDetailsViewNullID()
-        {
-             
-
-            var result = controller.Details(null, 1) as ViewResult;
+        {             
+            var result = controller.Details(null, 1) as HttpStatusCodeResult;
 
             Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
         }
 
         public void DetailsActionReturnsDetailsViewNullVersion()
         {
-             
-
-            var result = controller.Details(1, null) as ViewResult;
+            var result = controller.Details(1, null) as HttpStatusCodeResult;
 
             Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
         }
 
         public void DetailsActionReturnsDetailsViewNullIDAndVersion()
         {
-             
-
-            var result = controller.Details(null, null) as ViewResult;
+            var result = controller.Details(null, null) as HttpStatusCodeResult;
 
             Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
         }
@@ -110,8 +97,7 @@ namespace AOCMDB.UnitTests
         public void CreateActionReturnsCreateViewGET()
         {
             string expected = "Create";
-             
-
+                     
             var result = controller.Create() as ViewResult;
 
             Assert.AreEqual(expected, result.ViewName);
@@ -164,8 +150,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditView()
         {
-            string expected = "Edit";
-             
+            string expected = "Edit";             
 
             var result = controller.Edit(2,1) as ViewResult;
 
@@ -174,70 +159,55 @@ namespace AOCMDB.UnitTests
 
         [TestMethod]
         public void EditActionReturnsEditViewNullID()
-        {
-             
+        {      
+            var result = controller.Edit(null, 1) as HttpStatusCodeResult;
 
-            var result = controller.Edit(null, 1) as ViewResult;
-
-            Assert.AreEqual(result, typeof(HttpStatusCodeResult));
+            Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
         }
 
         [TestMethod]
         public void EditActionReturnsEditViewNullVersion()
         {
-             
+            var result = controller.Edit(1, null) as HttpStatusCodeResult;
 
-            var result = controller.Edit(1, null) as ViewResult;
-
-            Assert.AreEqual(result, typeof(HttpStatusCodeResult));
+            Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
         }
 
         [TestMethod]
         public void EditActionReturnsEditViewNullIDandVersion()
         {
-             
+            var result = controller.Edit(null, null) as HttpStatusCodeResult;
 
-            var result = controller.Edit(null, null) as ViewResult;
-
-            Assert.AreEqual(result, typeof(HttpStatusCodeResult));
+            Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
         }
 
         [TestMethod]
         public void EditActionReturnsEditViewInvalidID()
         {
-             
+            var result = controller.Edit(23123555, 1) as HttpNotFoundResult;
 
-            var result = controller.Edit(23123555, 1) as ViewResult;
-
-            Assert.AreEqual(result, typeof(HttpNotFoundResult));
+            Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
         }
 
         [TestMethod]
         public void EditActionReturnsEditViewInvalidVersion()
         {
-             
+            var result = controller.Edit(1, 23123555) as HttpNotFoundResult;
 
-            var result = controller.Edit(1, 23123555) as ViewResult;
-
-            Assert.AreEqual(result, typeof(HttpNotFoundResult));
+            Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
         }
 
         [TestMethod]
         public void EditActionReturnsEditViewInvalidIDandVersion()
         {
-             
+            var result = controller.Edit(23123555, 23123555) as HttpNotFoundResult;
 
-            var result = controller.Edit(23123555, 23123555) as ViewResult;
-
-            Assert.AreEqual(result, typeof(HttpNotFoundResult));
+            Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
         }
 
         [TestMethod]
         public void EditActionReturnsEditViewSuccessfullPost()
-        {
-            string expected = "Index";
-             
-
+        {   
             var result = controller.Edit(
                 new Models.Application()
                 {
@@ -250,7 +220,7 @@ namespace AOCMDB.UnitTests
                 }
                 ) as ViewResult;
 
-            Assert.AreEqual(expected, result.ViewName);
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -258,7 +228,6 @@ namespace AOCMDB.UnitTests
         {
             string expected = "Edit";
              
-
             var result = controller.Edit(
                 new Models.Application()
                 {
@@ -279,7 +248,6 @@ namespace AOCMDB.UnitTests
         {
             string expected = "Edit";
              
-
             var result = controller.Edit(
                 new Models.Application()
                 {
