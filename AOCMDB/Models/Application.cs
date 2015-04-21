@@ -48,16 +48,19 @@ namespace AOCMDB.Models
         /// The Human Readable Application Name
         /// </summary>
         [Required]
+        [Display(Name = "Application Name", Description = "Business name of the Application")]
         public string ApplicationName { get; set; }
 
         /// <summary>
         /// The business defined ApplicationID
         /// </summary>
+        [Display(Name = "Global Application ID", Description = "The business defined ApplicationID")]
         public int GlobalApplicationID { get; set; }
 
         /// <summary>
         /// This would typically point to the application's about page, or a development team page for the application
         /// </summary>
+        [Display(Name = "Site URL", Description = "This would typically point to the application's about page, or a development team page for the application")]
         public string SiteURL { get; set; }
 
         /// <summary>
@@ -65,6 +68,7 @@ namespace AOCMDB.Models
         /// </summary>
         [AllowHtml]
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Network Diagram or Inventory", Description = "This field describes the network resources used by the application")]
         public string NetworkDiagramOrInventory { get; set; }
 
         /// <summary>
@@ -72,6 +76,7 @@ namespace AOCMDB.Models
         /// </summary>
         [AllowHtml]
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Administrative Procedures", Description = "List of administrative tasks associated with the Application")]
         public string AdministrativeProcedures { get; set; }
 
         /// <summary>
@@ -79,6 +84,7 @@ namespace AOCMDB.Models
         /// </summary>
         [AllowHtml]
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Contact Information", Description = "This is a list of general Contact Information")]
         public string ContactInformation { get; set; }
 
         /// <summary>
@@ -86,6 +92,7 @@ namespace AOCMDB.Models
         /// </summary>
         [AllowHtml]
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Client Configuration and Validation", Description = "This is a list of general Client Interface Information and Validation steps for Client Interface(s)")]
         public string ClientConfigurationAndValidation { get; set; }
 
         /// <summary>
@@ -93,6 +100,7 @@ namespace AOCMDB.Models
         /// </summary>
         [AllowHtml]
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Server Configuration and Validation", Description = "This is a list of general Server Interface Information and validation steps for Server Interface(s)")]
         public string ServerConfigurationandValidation { get; set; }
 
         /// <summary>
@@ -100,6 +108,7 @@ namespace AOCMDB.Models
         /// </summary>
         [AllowHtml]
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Recovery Procedures", Description = "This is a list of validation steps for Server Interface(s)")]
         public string RecoveryProcedures { get; set; }
 
         /// <summary>
@@ -107,7 +116,7 @@ namespace AOCMDB.Models
         /// This collection is referenced by the UpstreamApplicationDependency field to  create the Application collection returned.
         /// </summary>
         private ICollection<int> _UpstreamApplicationDependency;
-
+        
         public ICollection<int> GetUpstreamApplicationDependency()
         {
             return _UpstreamApplicationDependency;

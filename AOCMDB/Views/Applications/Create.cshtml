@@ -105,10 +105,23 @@
 </div>
 
 @section Scripts {    
-    <script type="text/javascript" src="Scripts/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script type="text/javascript">
         tinymce.init({
-            selector: "textarea"
+            selector: "textarea",
+            plugins: "table",
+            tools: "inserttable",
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
+            menu: { 
+                edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
+                insert: { title: 'Insert', items: 'link media | template hr' },
+                format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
+                table: { title: 'Table', items: 'inserttable tableprops deletetable | cell row column' },
+                tools: { title: 'Tools', items: 'spellchecker code' }
+            },
+            statusbar: true,
+            resize: true,
+            height : 400
         });
     </script>
     @Scripts.Render("~/bundles/jqueryval")
