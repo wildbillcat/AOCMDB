@@ -126,7 +126,8 @@ namespace AOCMDB.Models
         /// This variable stores a list of all known upstream dependencies
         /// </summary>
         [NotMapped]
-        public virtual ICollection<Application> UpstreamApplicationDependency
+        [Display(Name = "Upstream Application Dependencies", Description = "This is a list of all Upstream Application Dependencies")]
+        public ICollection<Application> UpstreamApplicationDependency
         {
             get
             {
@@ -134,8 +135,9 @@ namespace AOCMDB.Models
                 {
                     //Find all of the latest copies of applications
                     List<Application> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
-                        .Where(MostRecentApplicationRevison => _UpstreamApplicationDependency.Contains(MostRecentApplicationRevison.ApplicationId))
+                        //.Where(MostRecentApplicationRevison => _UpstreamApplicationDependency.Contains(MostRecentApplicationRevison.ApplicationId))
                         .ToList();//Select all the latest revisions of upstream applications
+                    LatestApplicationVersions = LatestApplicationVersions.Where(p => _UpstreamApplicationDependency.Contains(p.ApplicationId)).ToList();
                     return LatestApplicationVersions;
                 }
             }
@@ -156,7 +158,8 @@ namespace AOCMDB.Models
         /// This is not set, it changes dynamically based on what applications refer to this as an upstream application
         /// </summary>
         [NotMapped]
-        public virtual ICollection<Application> DownstreamApplicationDependency
+        [Display(Name = "Downstream Application Dependencies", Description = "This is a list of all Downstream Application Dependencies")]
+        public ICollection<Application> DownstreamApplicationDependency
         {
             get
             {

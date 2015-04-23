@@ -1,6 +1,8 @@
 ﻿@model AOCMDB.Models.Application
 
 @{
+    List<AOCMDB.Models.Application> UpstreamApplications = (List<AOCMDB.Models.Application>)ViewData["UpstreamApplications"];
+    List<AOCMDB.Models.Application> DownstreamApplications = (List<AOCMDB.Models.Application>)ViewData["DownstreamApplications"];
     ViewBag.Title = "Details";
 }
 
@@ -98,7 +100,89 @@
             @Html.Raw(Model.RecoveryProcedures)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.UpstreamApplicationDependency)
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApplicationName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GlobalApplicationID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DatabaseRevision)
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.UpstreamApplicationDependency)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GlobalApplicationID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatabaseRevision)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.ApplicationId, version = item.DatabaseRevision })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DownstreamApplicationDependency)
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApplicationName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GlobalApplicationID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DatabaseRevision)
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.DownstreamApplicationDependency)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GlobalApplicationID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatabaseRevision)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.ApplicationId, version = item.DatabaseRevision })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
     </dl>
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ApplicationId, version = Model.DatabaseRevision }) |

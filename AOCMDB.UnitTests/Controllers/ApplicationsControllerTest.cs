@@ -106,8 +106,6 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void CreateActionReturnsCreateViewPOSTValidParams()
         {
-            string expected = "Index";
-
             Application test = new Models.Application()
             {
                 ApplicationId = 96,
