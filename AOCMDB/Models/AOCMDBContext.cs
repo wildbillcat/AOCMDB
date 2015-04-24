@@ -24,15 +24,36 @@ namespace AOCMDB.Models
         }        
 
         public DbSet<Application> Applications { get; set; }
+        public DbSet<UpstreamApplicationDependency> UpstreamApplicationDependencys { get; set; }
 
+        /// <summary>
+        /// Essentially this is a stored procedure that returns a list of all the latest revisions of the Applications
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Application> GetLatestApplicationVersions()
         {
             return this.Applications.GroupBy(p => p.ApplicationId)
                         .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault());
         }
 
+        /// <summary>
+        /// Essentially this is a stored procedure that returns a list of all the latest revisions of the Upstream Application Dependencies
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<UpstreamApplicationDependency> GetLatestUpstreamApplicationDependencyVersions()
+        {
+            return this.UpstreamApplicationDependencys.GroupBy(p => p.UpstreamApplicationDependencyId)
+                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault());
+        }
+
     }
 
+
+
+
+    /// <summary>
+    /// Seed Data
+    /// </summary>
     public class DefaultTestDataInitializer : DropCreateDatabaseAlways<AOCMDBContext>
     {
         protected override void Seed(AOCMDBContext context)
@@ -41,15 +62,12 @@ namespace AOCMDB.Models
             context.Applications.Add(ContosoApp);
             context.Applications.Add(new Application() { ApplicationId = 1, DatabaseRevision = 2, CreatedByUser = "testuser1", CreatedAt = DateTime.Now, ApplicationName = "SuperContosoCrossing", GlobalApplicationID = 526 });
             context.Applications.Add(new Application() { ApplicationId = 1, DatabaseRevision = 3, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ContosoCrossing", GlobalApplicationID = 528 });
-            List<Application> ContosoDependency = new List<Application>();
-            ContosoDependency.Add(ContosoApp);
-            //List<int> app1 = new List<int>();
-            //app1.Add(1)
+            
             Application ZiflandiaApp = new Application() { ApplicationId = 2, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ZiflandiaApp", GlobalApplicationID = 522 };
-            ZiflandiaApp.UpstreamApplicationDependency = ContosoDependency;
+            
             context.Applications.Add(ZiflandiaApp);
             context.Applications.Add(new Application() { ApplicationId = 3, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ClickOnceMadness", GlobalApplicationID = 523 });
-            context.Applications.Add(new Application() { ApplicationId = 4, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "FlappyHappy", GlobalApplicationID = 524, UpstreamApplicationDependency = ContosoDependency });
+            context.Applications.Add(new Application() { ApplicationId = 4, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "FlappyHappy", GlobalApplicationID = 524 });
             
             base.Seed(context);
         }

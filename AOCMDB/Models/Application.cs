@@ -21,7 +21,7 @@ namespace AOCMDB.Models
         [Key]
         [Column(Order = 1)]
         [Required]
-        public int ApplicationId { get; set; }
+        public long ApplicationId { get; set; }
 
         /// <summary>
         /// Internal Revision Number of  the Application information
@@ -29,7 +29,7 @@ namespace AOCMDB.Models
         [Key]
         [Column(Order = 2)]
         [Required]
-        public int DatabaseRevision { get; set; }
+        public long DatabaseRevision { get; set; }
 
         [Required]
         public string CreatedByUser { get; set; }
@@ -112,45 +112,10 @@ namespace AOCMDB.Models
         public string RecoveryProcedures { get; set; }
 
         /// <summary>
-        /// Application Dependencies are tracked using just the Generic ApplicationID to prevent complications due to versioning. 
-        /// This collection is referenced by the UpstreamApplicationDependency field to  create the Application collection returned.
+        /// This variable stores a list of all known upstream dependencies.
         /// </summary>
-        private ICollection<int> _UpstreamApplicationDependency;
-        
-        public ICollection<int> GetUpstreamApplicationDependency()
-        {
-            return _UpstreamApplicationDependency;
-        }
-
-        /// <summary>
-        /// This variable stores a list of all known upstream dependencies
-        /// </summary>
-        [NotMapped]
         [Display(Name = "Upstream Application Dependencies", Description = "This is a list of all Upstream Application Dependencies")]
-        public ICollection<Application> UpstreamApplicationDependency
-        {
-            get
-            {
-                using (AOCMDBContext _dbContext = new AOCMDBContext())
-                {
-                    //Find all of the latest copies of applications
-                    List<Application> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
-                        //.Where(MostRecentApplicationRevison => _UpstreamApplicationDependency.Contains(MostRecentApplicationRevison.ApplicationId))
-                        .ToList();//Select all the latest revisions of upstream applications
-                    LatestApplicationVersions = LatestApplicationVersions.Where(p => _UpstreamApplicationDependency.Contains(p.ApplicationId)).ToList();
-                    return LatestApplicationVersions;
-                }
-            }
-            set
-            {
-                List<int> UpstreamApplicationIDs = new List<int>();
-                foreach(Application UpstreamApplication in value)
-                {
-                    UpstreamApplicationIDs.Add(UpstreamApplication.ApplicationId);
-                }
-                _UpstreamApplicationDependency = UpstreamApplicationIDs;
-            }
-        }
+        public virtual ICollection<UpstreamApplicationDependency> UpstreamApplicationDependency { get; set; }
 
 
         /// <summary>
@@ -163,12 +128,13 @@ namespace AOCMDB.Models
         {
             get
             {
+                throw new NotImplementedException();
                 using (AOCMDBContext _dbContext = new AOCMDBContext())
                 {
                     //Find all of the latest copies of applications
                     List<Application> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
-                        .Where(MostRecentApplicationRevison => MostRecentApplicationRevison.UpstreamApplicationDependency.Contains(this))
-                        .ToList();//Select all the latest application revisions which contain an upstream reference to this application                   
+                        .ToList();
+                        //Select all the latest application revisions which contain an upstream reference to this application                   
                     return LatestApplicationVersions;
                 }
             }
@@ -177,6 +143,7 @@ namespace AOCMDB.Models
 
         public Application GenerateNewRevision()
         {
+            throw new NotImplementedException();
             return new Application()
             {
                 ApplicationId = this.ApplicationId,
@@ -191,8 +158,7 @@ namespace AOCMDB.Models
                 ContactInformation = this.ContactInformation,
                 ClientConfigurationAndValidation = this.ClientConfigurationAndValidation,
                 ServerConfigurationandValidation = this.ServerConfigurationandValidation,
-                RecoveryProcedures = this.RecoveryProcedures,
-                _UpstreamApplicationDependency = this.GetUpstreamApplicationDependency()
+                RecoveryProcedures = this.RecoveryProcedures
             };
         }
         
