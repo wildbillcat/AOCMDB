@@ -46,6 +46,16 @@ namespace AOCMDB.Models
                         .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault());
         }
 
+        /// <summary>
+        /// Essentially this is a stored procedure that returns a list of all the latest revisions of the Upstream Application Dependencies
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<UpstreamApplicationDependency> GetLatestUpstreamApplicationDependencyVersions(int ApplicationId)
+        {
+            return this.UpstreamApplicationDependencys.GroupBy(p => p.UpstreamApplicationDependencyId)
+                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision) && x.UpstreamApplicationID == ApplicationId).FirstOrDefault());
+        }
+
     }
 
 
