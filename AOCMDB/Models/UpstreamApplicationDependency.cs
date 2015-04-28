@@ -21,7 +21,8 @@ namespace AOCMDB.Models
         [Key]
         [Column(Order = 1)]
         [Required]
-        public long UpstreamApplicationDependencyId { get; set; }
+        [Display(Name = "Downstream Application ID", Description = "Internal ID of the Downstream Application")]
+        public long DownstreamApplicationId { get; set; }
 
         /// <summary>
         /// Internal Revision Number of  the Application information
@@ -29,13 +30,17 @@ namespace AOCMDB.Models
         [Key]
         [Column(Order = 2)]
         [Required]
-        public long DatabaseRevision { get; set; }
+        [Display(Name = "Upstream Application Revision", Description = "Revision number of the Application")]
+        public long DownstreamDatabaseRevision { get; set; }
 
+        /// <summary>
+        /// The Human Readable Application Name
+        /// </summary>
+        [Key]
+        [Column(Order = 3)]
         [Required]
-        public string CreatedByUser { get; set; }
-
-        [Required]
-        public DateTime CreatedAt { get; set; }
+        [Display(Name = "Upstream Application ID", Description = "Internal ID of the Application")]
+        public long UpstreamApplicationID { get; set; }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,13 +48,6 @@ namespace AOCMDB.Models
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         
-        /// <summary>
-        /// The Human Readable Application Name
-        /// </summary>
-        [Required]
-        [Display(Name = "Upstream Application ID", Description = "Internal ID of the Application")]
-        public long UpstreamApplicationID { get; set; }
-
 
         public Application GetUpstreamApplication()
         {

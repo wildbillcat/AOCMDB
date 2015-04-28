@@ -45,6 +45,8 @@ namespace AOCMDB.Controllers
             {
                 return HttpNotFound();
             }
+            ViewData["UpstreamApplications"] = application.GetUpstreamApplicationDependencies();
+            ViewData["DownstreamApplications"] = application.GetDownstreamApplicationDependencies();
             return View("Details", application);
         }
 

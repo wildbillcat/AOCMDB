@@ -111,39 +111,39 @@ namespace AOCMDB.Models
         [Display(Name = "Recovery Procedures", Description = "This is a list of validation steps for Server Interface(s)")]
         public string RecoveryProcedures { get; set; }
 
-        /// <summary>
-        /// This variable stores a list of all known upstream dependencies.
-        /// </summary>
-        [Display(Name = "Upstream Application Dependencies", Description = "This is a list of all Upstream Application Dependencies")]
-        public virtual ICollection<UpstreamApplicationDependency> UpstreamApplicationDependency { get; set; }
-
-
-        /// <summary>
-        /// This variable queries the database for any application that lists this as an upstream dependecy
-        /// This is not set, it changes dynamically based on what applications refer to this as an upstream application
-        /// </summary>
-        [NotMapped]
-        [Display(Name = "Downstream Application Dependencies", Description = "This is a list of all Downstream Application Dependencies")]
-        public ICollection<Application> DownstreamApplicationDependency
+        public ICollection<Application> GetUpstreamApplicationDependencies()
         {
-            get
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
-                throw new NotImplementedException();
-                using (AOCMDBContext _dbContext = new AOCMDBContext())
+                
+                List<Application> Applications = new List<Application>();
+                List<UpstreamApplicationDependency> UAD = _dbContext.UpstreamApplicationDependencys.Where(P => P.DownstreamApplicationId == this.ApplicationId && P.DownstreamDatabaseRevision == this.DatabaseRevision).ToList();
+                foreach (UpstreamApplicationDependency UpStream in UAD)
                 {
-                    //Find all of the latest copies of applications
-                    List<Application> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
-                        .ToList();
-                        //Select all the latest application revisions which contain an upstream reference to this application                   
-                    return LatestApplicationVersions;
+                    Applications.Add(UpStream.GetUpstreamApplication());
                 }
+                return Applications;
             }
         }
 
+        public ICollection<Application> GetDownstreamApplicationDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
+            {
+                //Find all of the latest copies of applications
+                List<Application> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
+                    .Join(_dbContext.UpstreamApplicationDependencys.Where(P => P.UpstreamApplicationID == this.ApplicationId),
+                        p => p.ApplicationId,
+                        e => e.DownstreamApplicationId,
+                        (p, e) => p)
+                    .ToList();
+                //Select all the latest application revisions which contain an upstream reference to this application                   
+                return LatestApplicationVersions;
+            }
+        }
 
         public Application GenerateNewRevision()
         {
-            throw new NotImplementedException();
             return new Application()
             {
                 ApplicationId = this.ApplicationId,
@@ -160,8 +160,7 @@ namespace AOCMDB.Models
                 ServerConfigurationandValidation = this.ServerConfigurationandValidation,
                 RecoveryProcedures = this.RecoveryProcedures
             };
-        }
-        
+        }        
 
     }
 }

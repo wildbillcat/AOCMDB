@@ -101,7 +101,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UpstreamApplicationDependency)
+            Upstream Application Dependencies
         </dt>
 
         <dd>
@@ -120,7 +120,7 @@
                     </th>
                 </tr>
 
-                @foreach (var item in Model.UpstreamApplicationDependency)
+                @foreach (var item in UpstreamApplications)
                 {
                     <tr>
                         <td>
@@ -141,7 +141,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DownstreamApplicationDependency)
+            Downstream Application Dependencies
         </dt>
 
         <dd>
@@ -160,7 +160,7 @@
                     </th>
                 </tr>
 
-                @foreach (var item in Model.DownstreamApplicationDependency)
+                @foreach (var item in DownstreamApplications)
                 {
                     <tr>
                         <td>

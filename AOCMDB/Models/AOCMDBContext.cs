@@ -42,8 +42,8 @@ namespace AOCMDB.Models
         /// <returns></returns>
         public IEnumerable<UpstreamApplicationDependency> GetLatestUpstreamApplicationDependencyVersions()
         {
-            return this.UpstreamApplicationDependencys.GroupBy(p => p.UpstreamApplicationDependencyId)
-                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision)).FirstOrDefault());
+            return this.UpstreamApplicationDependencys.GroupBy(p => p.DownstreamApplicationId)
+                        .Select(group => group.Where(x => x.DownstreamDatabaseRevision == group.Max(y => y.DownstreamDatabaseRevision)).FirstOrDefault());
         }
 
         /// <summary>
@@ -52,15 +52,13 @@ namespace AOCMDB.Models
         /// <returns></returns>
         public IEnumerable<UpstreamApplicationDependency> GetLatestUpstreamApplicationDependencyVersions(int ApplicationId)
         {
-            return this.UpstreamApplicationDependencys.GroupBy(p => p.UpstreamApplicationDependencyId)
-                        .Select(group => group.Where(x => x.DatabaseRevision == group.Max(y => y.DatabaseRevision) && x.UpstreamApplicationID == ApplicationId).FirstOrDefault());
+            return this.UpstreamApplicationDependencys.GroupBy(p => p.UpstreamApplicationID)
+                        .Select(group => group.Where(x => x.DownstreamDatabaseRevision == group.Max(y => y.DownstreamDatabaseRevision) && x.UpstreamApplicationID == ApplicationId).FirstOrDefault());
         }
 
     }
 
-
-
-
+   
     /// <summary>
     /// Seed Data
     /// </summary>
@@ -68,17 +66,17 @@ namespace AOCMDB.Models
     {
         protected override void Seed(AOCMDBContext context)
         {
-            Application ContosoApp = new Application() { ApplicationId = 1, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ContosoCrossing", GlobalApplicationID = 526 };
-            context.Applications.Add(ContosoApp);
+            context.Applications.Add(new Application() { ApplicationId = 1, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ContosoCrossing", GlobalApplicationID = 526 });
             context.Applications.Add(new Application() { ApplicationId = 1, DatabaseRevision = 2, CreatedByUser = "testuser1", CreatedAt = DateTime.Now, ApplicationName = "SuperContosoCrossing", GlobalApplicationID = 526 });
-            context.Applications.Add(new Application() { ApplicationId = 1, DatabaseRevision = 3, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ContosoCrossing", GlobalApplicationID = 528 });
-            
-            Application ZiflandiaApp = new Application() { ApplicationId = 2, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ZiflandiaApp", GlobalApplicationID = 522 };
-            
-            context.Applications.Add(ZiflandiaApp);
+            context.Applications.Add(new Application() { ApplicationId = 1, DatabaseRevision = 3, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ContosoCrossing", GlobalApplicationID = 528 });             
+            context.Applications.Add(new Application() { ApplicationId = 2, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ZiflandiaApp", GlobalApplicationID = 522 });
             context.Applications.Add(new Application() { ApplicationId = 3, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ClickOnceMadness", GlobalApplicationID = 523 });
             context.Applications.Add(new Application() { ApplicationId = 4, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "FlappyHappy", GlobalApplicationID = 524 });
-            
+
+            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 1, DownstreamDatabaseRevision = 2, UpstreamApplicationID = 3 });
+            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 2, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 1});
+            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 4, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 1 });
+            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 4, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 3 });
             base.Seed(context);
         }
     }

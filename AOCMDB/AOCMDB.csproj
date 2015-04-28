@@ -200,6 +200,10 @@
     <Compile Include="Migrations\201504240249453_Add_Upstream_Application_Dependency_Model.Designer.cs">
       <DependentUpon>201504240249453_Add_Upstream_Application_Dependency_Model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504280143161_GaveUpOnVirtualAdaptersToMakeExplicitConnections.cs" />
+    <Compile Include="Migrations\201504280143161_GaveUpOnVirtualAdaptersToMakeExplicitConnections.Designer.cs">
+      <DependentUpon>201504280143161_GaveUpOnVirtualAdaptersToMakeExplicitConnections.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AOCMDBContext.cs" />
@@ -459,6 +463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504240249453_Add_Upstream_Application_Dependency_Model.resx">
       <DependentUpon>201504240249453_Add_Upstream_Application_Dependency_Model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504280143161_GaveUpOnVirtualAdaptersToMakeExplicitConnections.resx">
+      <DependentUpon>201504280143161_GaveUpOnVirtualAdaptersToMakeExplicitConnections.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
