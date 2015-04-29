@@ -117,8 +117,8 @@ namespace AOCMDB.Models
             {
                 
                 List<Application> Applications = new List<Application>();
-                List<UpstreamApplicationDependency> UAD = _dbContext.UpstreamApplicationDependencys.Where(P => P.DownstreamApplicationId == this.ApplicationId && P.DownstreamDatabaseRevision == this.DatabaseRevision).ToList();
-                foreach (UpstreamApplicationDependency UpStream in UAD)
+                List<ApplicationToApplicationDependency> UAD = _dbContext.UpstreamApplicationDependencys.Where(P => P.DownstreamApplicationId == this.ApplicationId && P.DownstreamDatabaseRevision == this.DatabaseRevision).ToList();
+                foreach (ApplicationToApplicationDependency UpStream in UAD)
                 {
                     Applications.Add(UpStream.GetUpstreamApplication());
                 }

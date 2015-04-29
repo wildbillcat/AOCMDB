@@ -24,7 +24,7 @@ namespace AOCMDB.Models
         }        
 
         public DbSet<Application> Applications { get; set; }
-        public DbSet<UpstreamApplicationDependency> UpstreamApplicationDependencys { get; set; }
+        public DbSet<ApplicationToApplicationDependency> UpstreamApplicationDependencys { get; set; }
 
         /// <summary>
         /// Essentially this is a stored procedure that returns a list of all the latest revisions of the Applications
@@ -40,7 +40,7 @@ namespace AOCMDB.Models
         /// Essentially this is a stored procedure that returns a list of all the latest revisions of the Upstream Application Dependencies
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<UpstreamApplicationDependency> GetLatestUpstreamApplicationDependencyVersions()
+        public IEnumerable<ApplicationToApplicationDependency> GetLatestUpstreamApplicationDependencyVersions()
         {
             return this.UpstreamApplicationDependencys.GroupBy(p => p.DownstreamApplicationId)
                         .Select(group => group.Where(x => x.DownstreamDatabaseRevision == group.Max(y => y.DownstreamDatabaseRevision)).FirstOrDefault());
@@ -50,7 +50,7 @@ namespace AOCMDB.Models
         /// Essentially this is a stored procedure that returns a list of all the latest revisions of the Upstream Application Dependencies
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<UpstreamApplicationDependency> GetLatestUpstreamApplicationDependencyVersions(int ApplicationId)
+        public IEnumerable<ApplicationToApplicationDependency> GetLatestUpstreamApplicationDependencyVersions(int ApplicationId)
         {
             return this.UpstreamApplicationDependencys.GroupBy(p => p.UpstreamApplicationID)
                         .Select(group => group.Where(x => x.DownstreamDatabaseRevision == group.Max(y => y.DownstreamDatabaseRevision) && x.UpstreamApplicationID == ApplicationId).FirstOrDefault());
@@ -73,10 +73,10 @@ namespace AOCMDB.Models
             context.Applications.Add(new Application() { ApplicationId = 3, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "ClickOnceMadness", GlobalApplicationID = 523 });
             context.Applications.Add(new Application() { ApplicationId = 4, DatabaseRevision = 1, CreatedByUser = "wildbillcat", CreatedAt = DateTime.Now, ApplicationName = "FlappyHappy", GlobalApplicationID = 524 });
 
-            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 1, DownstreamDatabaseRevision = 2, UpstreamApplicationID = 3 });
-            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 2, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 1});
-            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 4, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 1 });
-            context.UpstreamApplicationDependencys.Add(new UpstreamApplicationDependency() { DownstreamApplicationId = 4, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 3 });
+            context.UpstreamApplicationDependencys.Add(new ApplicationToApplicationDependency() { DownstreamApplicationId = 1, DownstreamDatabaseRevision = 2, UpstreamApplicationID = 3 });
+            context.UpstreamApplicationDependencys.Add(new ApplicationToApplicationDependency() { DownstreamApplicationId = 2, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 1});
+            context.UpstreamApplicationDependencys.Add(new ApplicationToApplicationDependency() { DownstreamApplicationId = 4, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 1 });
+            context.UpstreamApplicationDependencys.Add(new ApplicationToApplicationDependency() { DownstreamApplicationId = 4, DownstreamDatabaseRevision = 1, UpstreamApplicationID = 3 });
             base.Seed(context);
         }
     }
