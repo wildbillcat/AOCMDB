@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web.Mvc;
+using AOCMDB.Models.Nodes;
 
 namespace AOCMDB.Models.Relationships
 {
-    public class ApplicationToApplicationDependency
+    public class ApplicationToDatabaseDependency
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,17 +40,15 @@ namespace AOCMDB.Models.Relationships
         [Key]
         [Column(Order = 3)]
         [Required]
-        [Display(Name = "Upstream Application ID", Description = "Internal ID of the Application")]
-        public long UpstreamApplicationID { get; set; }        
+        [Display(Name = "Upstream DatabaseNode ID", Description = "Internal ID of the DatabaseNode")]
+        public long UpstreamDatabaseNodeID { get; set; }        
 
-        public Application GetUpstreamApplication()
+        public DatabaseNode GetUpstreamDatabase()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
-                return _dbContext.GetLatestApplicationVersions().Where(P => P.ApplicationId == UpstreamApplicationID).FirstOrDefault();
+                return _dbContext.Databases.Find(UpstreamDatabaseNodeID);
             }            
         }
     }
-
-    
 }

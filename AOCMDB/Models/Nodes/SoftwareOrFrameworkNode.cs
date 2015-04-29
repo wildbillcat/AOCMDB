@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace AOCMDB.Models.Nodes
 {
-    public class SoftwareOrFramework
+    public class SoftwareOrFrameworkNode
     {
         /// <summary>
         /// Internal ApplicationID to AOCMDB

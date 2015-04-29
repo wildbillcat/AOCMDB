@@ -12,7 +12,7 @@ namespace AOCMDB.Models.Nodes
     /// Generally this should refer to a scoped entity and not a platform, such as Azure Cloud, or VMAX, but use your best judgment. In the example of
     /// Nvidia grid, this object would represent a single physical box (ie. Appliance Box 01), not the collective which would be summarized as a technology dependency. 
     /// </summary>
-    public class ServerOrAppliance
+    public class ServerOrApplianceNode
     {
         /// <summary>
         /// Internal ApplicationID to AOCMDB
@@ -25,7 +25,7 @@ namespace AOCMDB.Models.Nodes
         /// The Name of the logical storage component
         /// </summary>
         [Required]
-        [Display(Name = "Server or Appliance Name", Description = "Database name of the Server/Appliance")]
+        [Display(Name = "Server or Appliance Name", Description = "DatabaseNode name of the Server/Appliance")]
         public string DatabaseName { get; set; }
 
         /// <summary>

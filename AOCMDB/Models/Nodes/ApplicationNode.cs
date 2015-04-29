@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace AOCMDB.Models
+namespace AOCMDB.Models.Nodes
 {
-    public class Application
+    public class ApplicationNode
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,13 +111,13 @@ namespace AOCMDB.Models
         [Display(Name = "Recovery Procedures", Description = "This is a list of validation steps for Server Interface(s)")]
         public string RecoveryProcedures { get; set; }
 
-        public ICollection<Application> GetUpstreamApplicationDependencies()
+        public ICollection<ApplicationNode> GetUpstreamApplicationDependencies()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
                 
-                List<Application> Applications = new List<Application>();
-                List<ApplicationToApplicationDependency> UAD = _dbContext.UpstreamApplicationDependencys.Where(P => P.DownstreamApplicationId == this.ApplicationId && P.DownstreamDatabaseRevision == this.DatabaseRevision).ToList();
+                List<ApplicationNode> Applications = new List<ApplicationNode>();
+                List<ApplicationToApplicationDependency> UAD = _dbContext.ApplicationToApplicationDependencys.Where(P => P.DownstreamApplicationId == this.ApplicationId && P.DownstreamDatabaseRevision == this.DatabaseRevision).ToList();
                 foreach (ApplicationToApplicationDependency UpStream in UAD)
                 {
                     Applications.Add(UpStream.GetUpstreamApplication());
@@ -126,13 +126,13 @@ namespace AOCMDB.Models
             }
         }
 
-        public ICollection<Application> GetDownstreamApplicationDependencies()
+        public ICollection<ApplicationNode> GetDownstreamApplicationDependencies()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
                 //Find all of the latest copies of applications
-                List<Application> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
-                    .Join(_dbContext.UpstreamApplicationDependencys.Where(P => P.UpstreamApplicationID == this.ApplicationId),
+                List<ApplicationNode> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
+                    .Join(_dbContext.ApplicationToApplicationDependencys.Where(P => P.UpstreamApplicationID == this.ApplicationId),
                         p => p.ApplicationId,
                         e => e.DownstreamApplicationId,
                         (p, e) => p)
@@ -142,9 +142,9 @@ namespace AOCMDB.Models
             }
         }
 
-        public Application GenerateNewRevision()
+        public ApplicationNode GenerateNewRevision()
         {
-            return new Application()
+            return new ApplicationNode()
             {
                 ApplicationId = this.ApplicationId,
                 DatabaseRevision = this.DatabaseRevision+1,

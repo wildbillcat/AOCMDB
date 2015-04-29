@@ -10,7 +10,7 @@ namespace AOCMDB.Models.Nodes
     /// <summary>
     /// This would be a Network Share, NFS, Iscsi Lun, etc.
     /// </summary>
-    public class ExternalLogicalStorage
+    public class ExternalLogicalStorageNode
     {
         /// <summary>
         /// Internal ApplicationID to AOCMDB

@@ -207,14 +207,21 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AOCMDBContext.cs" />
-    <Compile Include="Models\Nodes\Application.cs" />
+    <Compile Include="Models\Nodes\ApplicationNode.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Nodes\Database.cs" />
-    <Compile Include="Models\Nodes\ExternalLogicalStorage.cs" />
-    <Compile Include="Models\Nodes\ServerOrAppliance.cs" />
-    <Compile Include="Models\Nodes\SoftwareOrFramework.cs" />
+    <Compile Include="Models\Nodes\DatabaseNode.cs" />
+    <Compile Include="Models\Nodes\ExternalLogicalStorageNode.cs" />
+    <Compile Include="Models\Nodes\ServerOrApplianceNode.cs" />
+    <Compile Include="Models\Nodes\SoftwareOrFrameworkNode.cs" />
     <Compile Include="Models\Relationships\ApplicationToApplicationDependency.cs" />
+    <Compile Include="Models\Relationships\ApplicationToDatabaseDependency.cs" />
+    <Compile Include="Models\Relationships\ApplicationToExternalLogicalStorageDependency.cs" />
+    <Compile Include="Models\Relationships\ApplicationToServerOrApplianceDependency.cs" />
+    <Compile Include="Models\Relationships\ApplicationToSoftwareOrFrameworkDependency.cs" />
+    <Compile Include="Models\Relationships\DatabaseToServerDependency.cs" />
+    <Compile Include="Models\Relationships\ExternalLogicalStorageDependencyToServerOrAppliance.cs" />
+    <Compile Include="Models\Relationships\ServerOrApplianceToExternalLogicalStorageDependency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

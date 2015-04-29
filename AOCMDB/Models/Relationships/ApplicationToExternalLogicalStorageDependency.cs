@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web.Mvc;
+using AOCMDB.Models.Nodes;
 
 namespace AOCMDB.Models.Relationships
 {
-    public class ApplicationToApplicationDependency
+    public class ApplicationToExternalLogicalStorageDependency
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,17 +40,15 @@ namespace AOCMDB.Models.Relationships
         [Key]
         [Column(Order = 3)]
         [Required]
-        [Display(Name = "Upstream Application ID", Description = "Internal ID of the Application")]
-        public long UpstreamApplicationID { get; set; }        
+        [Display(Name = "Upstream ExternalLogicalStorage ID", Description = "Internal ID of the External Logical Storage")]
+        public long UpstreamExternalLogicalStorageNodeNodeID { get; set; }
 
-        public Application GetUpstreamApplication()
+        public ExternalLogicalStorageNode GetUpstreamExternalLogicalStorage()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
-                return _dbContext.GetLatestApplicationVersions().Where(P => P.ApplicationId == UpstreamApplicationID).FirstOrDefault();
-            }            
+                return _dbContext.ExternalLogicalStorages.Find(UpstreamExternalLogicalStorageNodeNodeID);
+            }
         }
     }
-
-    
 }
