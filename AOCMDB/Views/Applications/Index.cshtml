@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AOCMDB.Models.Application>
+﻿@model IEnumerable<AOCMDB.Models.Nodes.ApplicationNode>
 
 @{
     ViewBag.Title = "Index";
@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <input type="button" value="Create New" onclick="location.href='@Url.Action("Create")'" />
 </p>
 <table class="table">
     <tr>

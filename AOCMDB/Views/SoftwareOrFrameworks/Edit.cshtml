@@ -50,7 +50,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index")'" />
 </div>
 
 @section Scripts {

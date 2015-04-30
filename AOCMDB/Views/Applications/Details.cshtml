@@ -1,8 +1,8 @@
-﻿@model AOCMDB.Models.Application
+﻿@model AOCMDB.Models.Nodes.ApplicationNode
 
 @{
-    List<AOCMDB.Models.Application> UpstreamApplications = (List<AOCMDB.Models.Application>)ViewData["UpstreamApplications"];
-    List<AOCMDB.Models.Application> DownstreamApplications = (List<AOCMDB.Models.Application>)ViewData["DownstreamApplications"];
+    List<AOCMDB.Models.Nodes.ApplicationNode> UpstreamApplications = (List<AOCMDB.Models.Nodes.ApplicationNode>)ViewData["UpstreamApplications"];
+    List<AOCMDB.Models.Nodes.ApplicationNode> DownstreamApplications = (List<AOCMDB.Models.Nodes.ApplicationNode>)ViewData["DownstreamApplications"];
     ViewBag.Title = "Details";
 }
 
@@ -186,5 +186,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ApplicationId, version = Model.DatabaseRevision }) |
-    @Html.ActionLink("Back to List", "Index")
+    <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index")'" />
 </p>

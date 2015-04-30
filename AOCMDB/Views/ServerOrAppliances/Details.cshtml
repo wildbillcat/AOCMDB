@@ -38,5 +38,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ServerOrApplianceId }) |
-    @Html.ActionLink("Back to List", "Index")
+    <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index")'" />
 </p>
