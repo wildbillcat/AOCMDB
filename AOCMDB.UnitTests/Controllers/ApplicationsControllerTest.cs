@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.ModelBinding;
 using System.Net;
 using Moq;
+using AOCMDB.Models.Nodes;
 
 namespace AOCMDB.UnitTests
 {
@@ -106,7 +107,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void CreateActionReturnsCreateViewPOSTValidParams()
         {
-            Application test = new Models.Application()
+            ApplicationNode test = new Models.Nodes.ApplicationNode()
             {
                 ApplicationId = 96,
                 DatabaseRevision = 1,
@@ -128,7 +129,7 @@ namespace AOCMDB.UnitTests
         {
             string expected = "Create";
 
-            Application test = new Models.Application()
+            ApplicationNode test = new Models.Nodes.ApplicationNode()
             {
                 ApplicationId = 88,
                 DatabaseRevision = 1,
@@ -207,7 +208,7 @@ namespace AOCMDB.UnitTests
         public void EditActionReturnsEditViewSuccessfullPost()
         {   
             var result = controller.Edit(
-                new Models.Application()
+                new Models.Nodes.ApplicationNode()
                 {
                     ApplicationId = 3,
                     DatabaseRevision = 1,
@@ -227,7 +228,7 @@ namespace AOCMDB.UnitTests
             string expected = "Edit";
              
             var result = controller.Edit(
-                new Models.Application()
+                new Models.Nodes.ApplicationNode()
                 {
                     ApplicationId = 1,
                     DatabaseRevision = 1,
@@ -247,7 +248,7 @@ namespace AOCMDB.UnitTests
             string expected = "Edit";
              
             var result = controller.Edit(
-                new Models.Application()
+                new Models.Nodes.ApplicationNode()
                 {
                     ApplicationId = 1,
                     DatabaseRevision = 1,
@@ -267,7 +268,7 @@ namespace AOCMDB.UnitTests
         {
             ControllerContext = (new Mock<ControllerContext>()).Object;
         }
-        public void TestModel(Application Model)
+        public void TestModel(ApplicationNode Model)
         {
             this.TryValidateModel(Model);
         }

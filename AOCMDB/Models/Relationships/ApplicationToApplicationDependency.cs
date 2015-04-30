@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web.Mvc;
+using AOCMDB.Models.Nodes;
 
 namespace AOCMDB.Models.Relationships
 {
@@ -40,9 +41,9 @@ namespace AOCMDB.Models.Relationships
         [Column(Order = 3)]
         [Required]
         [Display(Name = "Upstream Application ID", Description = "Internal ID of the Application")]
-        public long UpstreamApplicationID { get; set; }        
+        public long UpstreamApplicationID { get; set; }
 
-        public Application GetUpstreamApplication()
+        public ApplicationNode GetUpstreamApplication()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {

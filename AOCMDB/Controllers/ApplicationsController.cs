@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AOCMDB.Models;
+using AOCMDB.Models.Nodes;
 
 
 namespace AOCMDB.Controllers
@@ -27,8 +28,8 @@ namespace AOCMDB.Controllers
 
         // GET: Applications
         public ActionResult Index()
-        {            
-            List<Application> LatestApplicationVersions = db.GetLatestApplicationVersions().ToList();
+        {
+            List<ApplicationNode> LatestApplicationVersions = db.GetLatestApplicationVersions().ToList();
 
             return View("Index", LatestApplicationVersions);
         }
@@ -40,7 +41,7 @@ namespace AOCMDB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Application application = db.Applications.Find((int)id, (int)version);
+            ApplicationNode application = db.Applications.Find((int)id, (int)version);
             if (application == null)
             {
                 return HttpNotFound();
@@ -61,7 +62,7 @@ namespace AOCMDB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CreatedByUser,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] Application application)
+        public ActionResult Create([Bind(Include = "CreatedByUser,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] ApplicationNode application)
         {
             application.DatabaseRevision = 1;
             application.CreatedAt = DateTime.Now;
@@ -97,7 +98,7 @@ namespace AOCMDB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Application application = db.Applications.Find((int)id, (int)version);
+            ApplicationNode application = db.Applications.Find((int)id, (int)version);
             if (application == null)
             {
                 return HttpNotFound();
@@ -110,9 +111,9 @@ namespace AOCMDB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ApplicationId,DatabaseRevision,CreatedByUser,CreatedAt,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] Application application)
+        public ActionResult Edit([Bind(Include = "ApplicationId,DatabaseRevision,CreatedByUser,CreatedAt,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] ApplicationNode application)
         {
-            Application newAppTest;
+            ApplicationNode newAppTest;
             if (ModelState.IsValid)//If valid, try saving. Else return to edit page with validation errors
             {
                 if (User != null && User.Identity.IsAuthenticated)
