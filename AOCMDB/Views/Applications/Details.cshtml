@@ -185,6 +185,6 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ApplicationId, version = Model.DatabaseRevision }) |
+    <input type="button" value="Edit" onclick="location.href='@Url.Action("Edit", new { id = Model.ApplicationId, version = Model.DatabaseRevision })'" /> |
     <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index")'" />
 </p>
