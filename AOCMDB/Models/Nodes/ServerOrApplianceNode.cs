@@ -27,7 +27,7 @@ namespace AOCMDB.Models.Nodes
         [Required]
         [Index(IsUnique = true)]
         [Display(Name = "Server or Appliance Name", Description = "DatabaseNode name of the Server/Appliance")]
-        public string DatabaseName { get; set; }
+        public string ServerOrApplianceName { get; set; }
 
         /// <summary>
         /// The Human Readable Name/nickname
