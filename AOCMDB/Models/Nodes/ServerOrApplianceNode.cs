@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AOCMDB.Models.Relationships;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -43,5 +44,19 @@ namespace AOCMDB.Models.Nodes
         [DataType(DataType.MultilineText)]
         [Display(Name = "Details", Description = "This field gives a detailed description of the Server/Appliance")]
         public string Details { get; set; }
+
+
+        public ICollection<ExternalLogicalStorageNode> GetUpstreamServerOrApplianceDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
+            {
+                List<ExternalLogicalStorageNode> ExternalLogicalStorages = new List<ExternalLogicalStorageNode>();
+                foreach (ServerOrApplianceToExternalLogicalStorageDependency DataDep in _dbContext.ServerOrApplianceToExternalLogicalStorageDependencys.Where(P => P.DownstreamServerOrApplianceId == ServerOrApplianceId).ToList())
+                {
+                    ExternalLogicalStorages.Add(DataDep.GetUpstreamUpstreamServerOrAppliance());
+                }
+                return ExternalLogicalStorages;
+            }
+        }
     }
 }
