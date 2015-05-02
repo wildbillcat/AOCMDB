@@ -25,6 +25,7 @@ namespace AOCMDB.Models.Nodes
         /// The Name of the logical storage component
         /// </summary>
         [Required]
+        [Index(IsUnique = true)]
         [Display(Name = "Server or Appliance Name", Description = "DatabaseNode name of the Server/Appliance")]
         public string DatabaseName { get; set; }
 

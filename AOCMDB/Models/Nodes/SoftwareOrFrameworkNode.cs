@@ -22,6 +22,7 @@ namespace AOCMDB.Models.Nodes
         /// be noted as a separate software or Framework.
         /// </summary>
         [Required]
+        [Index(IsUnique = true)]
         [Display(Name = "Software Or Framework Name", Description = "This is the name of the Software Or Framework, such as the .Net 2.x, or Apache Web Server 1.x")]
         public string SoftwareOrFrameworkName { get; set; }
 

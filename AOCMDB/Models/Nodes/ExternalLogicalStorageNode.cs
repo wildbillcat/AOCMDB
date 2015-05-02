@@ -23,6 +23,7 @@ namespace AOCMDB.Models.Nodes
         /// The Name of the logical storage component
         /// </summary>
         [Required]
+        [Index(IsUnique = true)]
         [Display(Name = "External Logical Storage Name", Description = "This is the name of the logical storage, such as the windows UNC path, or iscsi lun name")]
         public string ExternalLogicalStorageName { get; set; }
 

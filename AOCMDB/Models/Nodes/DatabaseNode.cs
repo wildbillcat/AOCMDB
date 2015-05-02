@@ -24,6 +24,7 @@ namespace AOCMDB.Models.Nodes
         /// The Database Name
         /// </summary>
         [Required]
+        [Index(IsUnique = true)]
         [Display(Name = "DatabaseNode Name", Description = "DatabaseNode name of the Application")]
         public string DatabaseName { get; set; }
 
