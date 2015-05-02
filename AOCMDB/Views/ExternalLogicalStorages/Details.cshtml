@@ -34,6 +34,36 @@
             @Html.DisplayFor(model => model.Details)
         </dd>
 
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        Server Or Appliance Name
+                    </th>
+                    <th>
+                        Friendly Name
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.GetUpstreamServerOrApplianceDependencies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ServerOrApplianceName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FriendlyName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "ServerOrAppliances", new { id = item.ServerOrApplianceId }, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
     </dl>
 </div>
 <p>

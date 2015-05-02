@@ -46,7 +46,7 @@ namespace AOCMDB.Models.Nodes
         public string Details { get; set; }
 
 
-        public ICollection<ExternalLogicalStorageNode> GetUpstreamServerOrApplianceDependencies()
+        public ICollection<ExternalLogicalStorageNode> GetUpstreamExternalLogicalStorageDependencies()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
