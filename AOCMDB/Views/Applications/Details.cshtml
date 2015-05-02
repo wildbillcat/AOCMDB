@@ -211,7 +211,7 @@
                             @Html.DisplayFor(modelItem => item.DatabaseType)
                         </td>
                         <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.DatabaseId})
+                            @Html.ActionLink("Details", "Details", "Databases", new { id = item.DatabaseId }, null)
                         </td>
                     </tr>
                 }
@@ -219,9 +219,9 @@
         </dd>
 
         <dt>
-            
-        </dt>
             Upstream External Logical Storage Dependencies
+        </dt>
+            
         <dd>
             <table class="table">
                 <tr>
@@ -245,7 +245,7 @@
                             @Html.DisplayFor(modelItem => item.FriendlyName)
                         </td>                        
                         <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.ExternalLogicalStorageId })
+                            @Html.ActionLink("Details", "Details", "ExternalLogicalStorages", new { id = item.ExternalLogicalStorageId }, null)
                         </td>
                     </tr>
                 }
@@ -279,7 +279,7 @@
                             @Html.DisplayFor(modelItem => item.FriendlyName)
                         </td>
                         <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.ServerOrApplianceId })
+                            @Html.ActionLink("Details", "Details", "ServerOrAppliances", new { id = item.ServerOrApplianceId }, null)
                         </td>
                     </tr>
                 }
@@ -317,7 +317,7 @@
                             @Html.DisplayFor(modelItem => item.FriendlyName)
                         </td>
                         <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.SoftwareOrFrameworkId })
+                            @Html.ActionLink("Details", "Details", "SoftwareOrFrameworks", new { id = item.SoftwareOrFrameworkId }, null)
                         </td>
                     </tr>
                 }
