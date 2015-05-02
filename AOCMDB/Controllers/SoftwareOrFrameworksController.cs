@@ -100,32 +100,6 @@ namespace AOCMDB.Controllers
             return View(softwareOrFrameworkNode);
         }
 
-        // GET: SoftwareOrFrameworks/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SoftwareOrFrameworkNode softwareOrFrameworkNode = db.SoftwareOrFrameworks.Find(id);
-            if (softwareOrFrameworkNode == null)
-            {
-                return HttpNotFound();
-            }
-            return View(softwareOrFrameworkNode);
-        }
-
-        // POST: SoftwareOrFrameworks/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            SoftwareOrFrameworkNode softwareOrFrameworkNode = db.SoftwareOrFrameworks.Find(id);
-            db.SoftwareOrFrameworks.Remove(softwareOrFrameworkNode);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

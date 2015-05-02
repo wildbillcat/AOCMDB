@@ -100,32 +100,6 @@ namespace AOCMDB.Controllers
             return View(externalLogicalStorageNode);
         }
 
-        // GET: ExternalLogicalStorages/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ExternalLogicalStorageNode externalLogicalStorageNode = db.ExternalLogicalStorages.Find(id);
-            if (externalLogicalStorageNode == null)
-            {
-                return HttpNotFound();
-            }
-            return View(externalLogicalStorageNode);
-        }
-
-        // POST: ExternalLogicalStorages/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            ExternalLogicalStorageNode externalLogicalStorageNode = db.ExternalLogicalStorages.Find(id);
-            db.ExternalLogicalStorages.Remove(externalLogicalStorageNode);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

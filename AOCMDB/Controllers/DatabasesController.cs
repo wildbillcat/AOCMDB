@@ -100,32 +100,6 @@ namespace AOCMDB.Controllers
             return View(databaseNode);
         }
 
-        // GET: Databases/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            DatabaseNode databaseNode = db.Databases.Find(id);
-            if (databaseNode == null)
-            {
-                return HttpNotFound();
-            }
-            return View(databaseNode);
-        }
-
-        // POST: Databases/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            DatabaseNode databaseNode = db.Databases.Find(id);
-            db.Databases.Remove(databaseNode);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
