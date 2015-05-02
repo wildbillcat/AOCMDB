@@ -143,6 +143,57 @@ namespace AOCMDB.Models.Nodes
             }
         }
 
+        public ICollection<DatabaseNode> GetUpstreamDatabaseDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext()){
+                List<DatabaseNode> DatabaseNodes = new List<DatabaseNode>();
+                foreach (ApplicationToDatabaseDependency DataDep in _dbContext.ApplicationToDatabaseDependencys.Where(P => P.DownstreamApplicationId == ApplicationId && P.DownstreamDatabaseRevision == DatabaseRevision).ToList())
+                {
+                    DatabaseNodes.Add(DataDep.GetUpstreamDatabase());
+                }
+                return DatabaseNodes;
+            }            
+        }
+
+        public ICollection<ExternalLogicalStorageNode> GetUpstreamExternalLogicalStorageDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
+            {
+                List<ExternalLogicalStorageNode> ExternalLogicalStorages = new List<ExternalLogicalStorageNode>();
+                foreach (ApplicationToExternalLogicalStorageDependency DataDep in _dbContext.ApplicationToExternalLogicalStorageDependencys.Where(P => P.DownstreamApplicationId == ApplicationId && P.DownstreamDatabaseRevision == DatabaseRevision).ToList())
+                {
+                    ExternalLogicalStorages.Add(DataDep.GetUpstreamExternalLogicalStorage());
+                }
+                return ExternalLogicalStorages;
+            }
+        }
+
+        public ICollection<ServerOrApplianceNode> GetUpstreamDatabaseDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
+            {
+                List<ServerOrApplianceNode> ServerOrApplianceNodes = new List<ServerOrApplianceNode>();
+                foreach (ApplicationToServerOrApplianceDependency DataDep in _dbContext.ApplicationToServerDependencys.Where(P => P.DownstreamApplicationId == ApplicationId && P.DownstreamDatabaseRevision == DatabaseRevision).ToList())
+                {
+                    ServerOrApplianceNodes.Add(DataDep.GetUpstreamUpstreamServerOrAppliance());
+                }
+                return ServerOrApplianceNodes;
+            }
+        }
+
+        public ICollection<SoftwareOrFrameworkNode> GetUpstreamDatabaseDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
+            {
+                List<SoftwareOrFrameworkNode> SoftwareOrFrameworkNodes = new List<SoftwareOrFrameworkNode>();
+                foreach (ApplicationToSoftwareOrFrameworkDependency DataDep in _dbContext.ApplicationToSoftwareOrFrameworkDependencys.Where(P => P.DownstreamApplicationId == ApplicationId && P.DownstreamDatabaseRevision == DatabaseRevision).ToList())
+                {
+                    SoftwareOrFrameworkNodes.Add(DataDep.GetUpstreamSoftwareOrFrameworkNode());
+                }
+                return SoftwareOrFrameworkNodes;
+            }
+        }
+
         public ApplicationNode GenerateNewRevision()
         {
             return new ApplicationNode()
