@@ -1,8 +1,6 @@
 ﻿@model AOCMDB.Models.Nodes.ApplicationNode
 
 @{
-    List<AOCMDB.Models.Nodes.ApplicationNode> UpstreamApplications = (List<AOCMDB.Models.Nodes.ApplicationNode>)ViewData["UpstreamApplications"];
-    List<AOCMDB.Models.Nodes.ApplicationNode> DownstreamApplications = (List<AOCMDB.Models.Nodes.ApplicationNode>)ViewData["DownstreamApplications"];
     ViewBag.Title = "Details";
 }
 
@@ -120,7 +118,7 @@
                     </th>
                 </tr>
 
-                @foreach (var item in UpstreamApplications)
+                @foreach (var item in Model.GetUpstreamApplicationDependencies())
                 {
                     <tr>
                         <td>
@@ -160,7 +158,7 @@
                     </th>
                 </tr>
 
-                @foreach (var item in DownstreamApplications)
+                @foreach (var item in Model.GetDownstreamApplicationDependencies())
                 {
                     <tr>
                         <td>
