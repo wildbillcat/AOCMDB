@@ -150,9 +150,9 @@ namespace AOCMDB.Models
             context.DatabaseToServerOrApplianceDependencys.Add(new DatabaseToServerOrApplianceDependency() { DownstreamDatabaseId = 3, UpstreamServerOrApplianceId = 5 });
             context.DatabaseToServerOrApplianceDependencys.Add(new DatabaseToServerOrApplianceDependency() { DownstreamDatabaseId = 4, UpstreamServerOrApplianceId = 7 });
             //Initial Software or Frameworks
-            context.SoftwareOrFrameworks.Add(new SoftwareOrFrameworkNode() { SoftwareOrFrameworkStorageId = 1, SoftwareOrFrameworkName = ".Net 2.0", FriendlyName = "Microsoft .Net Framework 2.0" });
-            context.SoftwareOrFrameworks.Add(new SoftwareOrFrameworkNode() { SoftwareOrFrameworkStorageId = 2, SoftwareOrFrameworkName = ".Net 4.5.2", FriendlyName = "Microsoft .Net Framework 4.5.2" });
-            context.SoftwareOrFrameworks.Add(new SoftwareOrFrameworkNode() { SoftwareOrFrameworkStorageId = 3, SoftwareOrFrameworkName = "IIS 7.5", FriendlyName = "Microsoft Internet Information Server 7.5" });
+            context.SoftwareOrFrameworks.Add(new SoftwareOrFrameworkNode() { SoftwareOrFrameworkId = 1, SoftwareOrFrameworkName = ".Net 2.0", FriendlyName = "Microsoft .Net Framework 2.0" });
+            context.SoftwareOrFrameworks.Add(new SoftwareOrFrameworkNode() { SoftwareOrFrameworkId = 2, SoftwareOrFrameworkName = ".Net 4.5.2", FriendlyName = "Microsoft .Net Framework 4.5.2" });
+            context.SoftwareOrFrameworks.Add(new SoftwareOrFrameworkNode() { SoftwareOrFrameworkId = 3, SoftwareOrFrameworkName = "IIS 7.5", FriendlyName = "Microsoft Internet Information Server 7.5" });
             //Applications to Software
             context.ApplicationToSoftwareOrFrameworkDependencys.Add(new ApplicationToSoftwareOrFrameworkDependency() { DownstreamApplicationId = 1, DownstreamDatabaseRevision = 3, UpstreamApplicationToSoftwareOrFrameworkDependencyID = 2});
             context.ApplicationToSoftwareOrFrameworkDependencys.Add(new ApplicationToSoftwareOrFrameworkDependency() { DownstreamApplicationId = 1, DownstreamDatabaseRevision = 3, UpstreamApplicationToSoftwareOrFrameworkDependencyID = 3 });

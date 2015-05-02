@@ -14,7 +14,7 @@ namespace AOCMDB.Models.Nodes
         /// </summary>
         [Key]
         [Required]
-        public long SoftwareOrFrameworkStorageId { get; set; }
+        public long SoftwareOrFrameworkId { get; set; }
 
         /// <summary>
         /// The name/verion of the software. Generally just Major version should be noted, 

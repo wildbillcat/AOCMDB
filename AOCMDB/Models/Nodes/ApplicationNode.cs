@@ -168,7 +168,7 @@ namespace AOCMDB.Models.Nodes
             }
         }
 
-        public ICollection<ServerOrApplianceNode> GetUpstreamDatabaseDependencies()
+        public ICollection<ServerOrApplianceNode> GetUpstreamServerOrApplianceDependencies()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
@@ -181,7 +181,7 @@ namespace AOCMDB.Models.Nodes
             }
         }
 
-        public ICollection<SoftwareOrFrameworkNode> GetUpstreamDatabaseDependencies()
+        public ICollection<SoftwareOrFrameworkNode> GetUpstreamSoftwareOrFrameworkDependencies()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {

@@ -178,6 +178,152 @@
             </table>
         </dd>
 
+        <dt>
+            Upstream Database Dependencies
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        Database Name
+                    </th>
+                    <th>
+                        Friendly Name
+                    </th>
+                    <th>
+                        Database Type 
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.GetUpstreamDatabaseDependencies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatabaseName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FriendlyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatabaseType)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.DatabaseId})
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+        <dt>
+            
+        </dt>
+            Upstream External Logical Storage Dependencies
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        External Logical Storage Name
+                    </th>
+                    <th>
+                        Friendly Name
+                    </th>                    
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.GetUpstreamExternalLogicalStorageDependencies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExternalLogicalStorageName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FriendlyName)
+                        </td>                        
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.ExternalLogicalStorageId })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+        <dt>
+            Upstream Server/Appliance Dependencies
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        Server Or Appliance Name
+                    </th>
+                    <th>
+                        Friendly Name
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.GetUpstreamServerOrApplianceDependencies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ServerOrApplianceName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FriendlyName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.ServerOrApplianceId })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+
+        <dt>
+            Upstream Software and Framework Dependencies
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApplicationName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GlobalApplicationID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DatabaseRevision)
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.GetUpstreamSoftwareOrFrameworkDependencies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoftwareOrFrameworkName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FriendlyName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.SoftwareOrFrameworkId })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
     </dl>
 
 
