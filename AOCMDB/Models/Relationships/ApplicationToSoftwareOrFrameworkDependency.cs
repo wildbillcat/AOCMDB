@@ -41,13 +41,13 @@ namespace AOCMDB.Models.Relationships
         [Column(Order = 3)]
         [Required]
         [Display(Name = "Upstream ApplicationToSoftwareOrFrameworkDependency ID", Description = "Internal ID of the External Logical Storage")]
-        public long UpstreamExternalLogicalStorageNodeNodeID { get; set; }
+        public long UpstreamApplicationToSoftwareOrFrameworkDependencyID { get; set; }
 
         public ApplicationToSoftwareOrFrameworkDependency GetUpstreamApplicationToSoftwareOrFrameworkDependency()
         {
             using (AOCMDBContext _dbContext = new AOCMDBContext())
             {
-                return _dbContext.ApplicationToSoftwareOrFrameworkDependencys.Find(UpstreamExternalLogicalStorageNodeNodeID);
+                return _dbContext.ApplicationToSoftwareOrFrameworkDependencys.Find(UpstreamApplicationToSoftwareOrFrameworkDependencyID);
             }
         }
     }

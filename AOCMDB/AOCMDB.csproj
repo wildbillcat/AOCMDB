@@ -212,9 +212,9 @@
     <Compile Include="Migrations\201504300224531_Added_relaionships_and_nodes.Designer.cs">
       <DependentUpon>201504300224531_Added_relaionships_and_nodes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201505020511219_Fixed_Server_Name_Added_Indexes_to_Names.cs" />
-    <Compile Include="Migrations\201505020511219_Fixed_Server_Name_Added_Indexes_to_Names.Designer.cs">
-      <DependentUpon>201505020511219_Fixed_Server_Name_Added_Indexes_to_Names.cs</DependentUpon>
+    <Compile Include="Migrations\201505020605035_Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes.cs" />
+    <Compile Include="Migrations\201505020605035_Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes.Designer.cs">
+      <DependentUpon>201505020605035_Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -509,8 +509,8 @@
     <EmbeddedResource Include="Migrations\201504300224531_Added_relaionships_and_nodes.resx">
       <DependentUpon>201504300224531_Added_relaionships_and_nodes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505020511219_Fixed_Server_Name_Added_Indexes_to_Names.resx">
-      <DependentUpon>201505020511219_Fixed_Server_Name_Added_Indexes_to_Names.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505020605035_Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes.resx">
+      <DependentUpon>201505020605035_Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

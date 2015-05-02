@@ -49,7 +49,6 @@ namespace AOCMDB.Models.Nodes
         /// The Human Readable Application Name
         /// </summary>
         [Required]
-        [Index(IsUnique = true)]
         [Display(Name = "Application Name", Description = "Business name of the Application")]
         public string ApplicationName { get; set; }
 

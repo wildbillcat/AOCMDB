@@ -26,6 +26,7 @@ namespace AOCMDB.Models.Nodes
         /// </summary>
         [Required]
         [Index(IsUnique = true)]
+        [StringLength(450)]
         [Display(Name = "Server or Appliance Name", Description = "DatabaseNode name of the Server/Appliance")]
         public string ServerOrApplianceName { get; set; }
 

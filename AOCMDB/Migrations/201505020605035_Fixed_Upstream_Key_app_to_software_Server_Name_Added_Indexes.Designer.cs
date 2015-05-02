@@ -7,13 +7,13 @@ namespace AOCMDB.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Fixed_Server_Name_Added_Indexes_to_Names : IMigrationMetadata
+    public sealed partial class Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Fixed_Server_Name_Added_Indexes_to_Names));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes));
         
         string IMigrationMetadata.Id
         {
-            get { return "201505020511219_Fixed_Server_Name_Added_Indexes_to_Names"; }
+            get { return "201505020605035_Fixed_Upstream_Key_app_to_software_Server_Name_Added_Indexes"; }
         }
         
         string IMigrationMetadata.Source
