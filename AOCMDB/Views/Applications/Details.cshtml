@@ -98,7 +98,7 @@
             @Html.Raw(Model.RecoveryProcedures)
         </dd>
 
-        <dt>
+        <dt style="text-align: center;padding-top:4em">
             Upstream Application Dependencies
         </dt>
 
@@ -138,47 +138,7 @@
             </table>
         </dd>
 
-        <dt>
-            Downstream Application Dependencies
-        </dt>
-
-        <dd>
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ApplicationName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.GlobalApplicationID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DatabaseRevision)
-                    </th>
-                    <th>
-                    </th>
-                </tr>
-
-                @foreach (var item in Model.GetDownstreamApplicationDependencies())
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ApplicationName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GlobalApplicationID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DatabaseRevision)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.ApplicationId, version = item.DatabaseRevision })
-                        </td>
-                    </tr>
-                }
-            </table>
-        </dd>
-
-        <dt>
+        <dt style="text-align: center;padding-top:4em">
             Upstream Database Dependencies
         </dt>
 
@@ -218,7 +178,7 @@
             </table>
         </dd>
 
-        <dt>
+        <dt style="text-align: center;padding-top:4em">
             Upstream External Logical Storage Dependencies
         </dt>
             
@@ -252,7 +212,7 @@
             </table>
         </dd>
 
-        <dt>
+        <dt style="text-align: center;padding-top:4em">
             Upstream Server/Appliance Dependencies
         </dt>
 
@@ -287,7 +247,7 @@
         </dd>
 
 
-        <dt>
+        <dt style="text-align: center;padding-top:4em">
             Upstream Software and Framework Dependencies
         </dt>
 
@@ -315,6 +275,47 @@
                         </td>
                         <td>
                             @Html.ActionLink("Details", "Details", "SoftwareOrFrameworks", new { id = item.SoftwareOrFrameworkId }, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+
+        <dt style="text-align: center;padding-top:4em">
+            Downstream Application Dependencies
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApplicationName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GlobalApplicationID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DatabaseRevision)
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.GetDownstreamApplicationDependencies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GlobalApplicationID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatabaseRevision)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.ApplicationId, version = item.DatabaseRevision })
                         </td>
                     </tr>
                 }

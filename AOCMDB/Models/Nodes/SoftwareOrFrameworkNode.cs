@@ -40,5 +40,21 @@ namespace AOCMDB.Models.Nodes
         [DataType(DataType.MultilineText)]
         [Display(Name = "Details", Description = "This field gives a detailed description of the Software Or Framework")]
         public string Details { get; set; }
+
+        public ICollection<ApplicationNode> GetDownstreamApplicationDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
+            {
+                //Find all of the latest copies of applications
+                List<ApplicationNode> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
+                    .Join(_dbContext.ApplicationToSoftwareOrFrameworkDependencys.Where(P => P.UpstreamApplicationToSoftwareOrFrameworkDependencyID == this.SoftwareOrFrameworkId),
+                        p => p.ApplicationId,
+                        e => e.DownstreamApplicationId,
+                        (p, e) => p)
+                    .ToList();
+                //Select all the latest application revisions which contain an upstream reference to this application                   
+                return LatestApplicationVersions;
+            }
+        }
     }
 }

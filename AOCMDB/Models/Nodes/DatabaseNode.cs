@@ -64,5 +64,21 @@ namespace AOCMDB.Models.Nodes
                 return ExternalLogicalStorages;
             }
         }
+
+        public ICollection<ApplicationNode> GetDownstreamApplicationDependencies()
+        {
+            using (AOCMDBContext _dbContext = new AOCMDBContext())
+            {
+                //Find all of the latest copies of applications
+                List<ApplicationNode> LatestApplicationVersions = _dbContext.GetLatestApplicationVersions()//Latest Application Revisions
+                    .Join(_dbContext.ApplicationToDatabaseDependencys.Where(P => P.UpstreamDatabaseNodeID == this.DatabaseId),
+                        p => p.ApplicationId,
+                        e => e.DownstreamApplicationId,
+                        (p, e) => p)
+                    .ToList();
+                //Select all the latest application revisions which contain an upstream reference to this application                   
+                return LatestApplicationVersions;
+            }
+        }
     }
 }

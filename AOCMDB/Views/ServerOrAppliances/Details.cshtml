@@ -34,7 +34,7 @@
             @Html.DisplayFor(model => model.Details)
         </dd>
 
-        <dt>
+        <dt style="text-align: center;padding-top:4em">
             Upstream External Logical Storage Dependencies
         </dt>
 
@@ -62,6 +62,46 @@
                         </td>
                         <td>
                             @Html.ActionLink("Details", "Details", "ExternalLogicalStorages", new { id = item.ExternalLogicalStorageId }, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+        <dt style="text-align: center;padding-top:4em">
+            Downstream Application Dependencies
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        Application Name
+                    </th>
+                    <th>
+                        Global Application ID
+                    </th>
+                    <th>
+                        Database Revision
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.GetDownstreamApplicationDependencies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GlobalApplicationID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatabaseRevision)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Applications", new { id = item.ApplicationId, version = item.DatabaseRevision }, null)
                         </td>
                     </tr>
                 }
