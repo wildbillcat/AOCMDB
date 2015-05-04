@@ -34,6 +34,54 @@ namespace AOCMDB.Controllers
             return View("Index", LatestApplicationVersions);
         }
 
+        //POST: Applications Search
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(string SearchTerm, string SearchField)
+        {
+            List<ApplicationNode> Results;
+            switch(SearchField){
+                case "ApplicationName":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.ApplicationName != null && P.ApplicationName.Contains(SearchTerm)).ToList();
+                    break;
+                case "GlobalApplicationID":
+                    int globalID;
+                    try{
+                        globalID = int.Parse(SearchTerm);
+                    }catch{//If invalid ID was given, just return empty list
+                        Results = new List<ApplicationNode>();
+                        break;
+                    }
+                    Results = db.GetLatestApplicationVersions().Where(P => P.GlobalApplicationID == globalID).ToList();
+                    break;
+                case "SiteURL":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.SiteURL != null && P.SiteURL.Contains(SearchTerm)).ToList();
+                    break;
+                case "NetworkDiagramOrInventory":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.NetworkDiagramOrInventory != null && P.NetworkDiagramOrInventory.Contains(SearchTerm)).ToList();
+                    break;
+                case "AdministrativeProcedures":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.AdministrativeProcedures != null && P.AdministrativeProcedures.Contains(SearchTerm)).ToList();
+                    break;
+                case "ContactInformation":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.ContactInformation != null && P.ContactInformation.Contains(SearchTerm)).ToList();
+                    break;
+                case "ClientConfigurationAndValidation":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.ClientConfigurationAndValidation != null && P.ClientConfigurationAndValidation.Contains(SearchTerm)).ToList();
+                    break;
+                case "ServerConfigurationandValidation":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.ServerConfigurationandValidation != null && P.ServerConfigurationandValidation.Contains(SearchTerm)).ToList();
+                    break;
+                case "RecoveryProcedures":
+                    Results = db.GetLatestApplicationVersions().Where(P => P.RecoveryProcedures != null && P.RecoveryProcedures.Contains(SearchTerm)).ToList();
+                    break;                    
+                default: //all
+                    Results = db.GetLatestApplicationVersions().Where(P => (P.ApplicationName != null && P.ApplicationName.Contains(SearchTerm)) || (P.SiteURL != null && P.SiteURL.Contains(SearchTerm)) || (P.NetworkDiagramOrInventory != null && P.NetworkDiagramOrInventory.Contains(SearchTerm)) || (P.AdministrativeProcedures != null && P.AdministrativeProcedures.Contains(SearchTerm)) || (P.ContactInformation != null && P.ContactInformation.Contains(SearchTerm)) || (P.ClientConfigurationAndValidation != null && P.ClientConfigurationAndValidation.Contains(SearchTerm)) || (P.ServerConfigurationandValidation != null && P.ServerConfigurationandValidation.Contains(SearchTerm)) || (P.RecoveryProcedures != null && P.RecoveryProcedures.Contains(SearchTerm))).ToList();
+                    break;                
+            }
+            return View("Index", Results);
+        }
+
         // GET: Applications/Details/5
         public ActionResult Details(int? id, int? version)
         {
