@@ -309,11 +309,11 @@ namespace AOCMDB.Controllers
             ViewData["ServersOrAppliances"] = db.ServerOrAppliances.ToList();
             ViewData["SoftwareOrFrameworks"] = db.SoftwareOrFrameworks.ToList();
             //Dependencies!
-            ViewData["ApplicationsDep"] = db.ApplicationToApplicationDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
-            ViewData["DatabasesDep"] = db.ApplicationToDatabaseDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
-            ViewData["ExternalLosticalStoragesDep"] = db.ApplicationToExternalLogicalStorageDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
-            ViewData["ServersOrAppliancesDep"] = db.ApplicationToServerDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
-            ViewData["SoftwareOrFrameworksDep"] = db.ApplicationToSoftwareOrFrameworkDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["ApplicationsDep"] = db.ApplicationToApplicationDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).Select(P=>P.UpstreamApplicationID).ToList();
+            ViewData["DatabasesDep"] = db.ApplicationToDatabaseDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).Select(P=>P.UpstreamDatabaseNodeID).ToList();
+            ViewData["ExternalLosticalStoragesDep"] = db.ApplicationToExternalLogicalStorageDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).Select(P=>P.UpstreamExternalLogicalStorageNodeNodeID).ToList();
+            ViewData["ServersOrAppliancesDep"] = db.ApplicationToServerDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).Select(P=>P.UpstreamServerOrApplianceNodeID).ToList();
+            ViewData["SoftwareOrFrameworksDep"] = db.ApplicationToSoftwareOrFrameworkDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).Select(P=>P.UpstreamApplicationToSoftwareOrFrameworkDependencyID).ToList();
 
             return View("Edit", application);
         }
