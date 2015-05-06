@@ -178,17 +178,11 @@ namespace AOCMDB.Controllers
         // GET: Applications/Create
         public ActionResult Create()
         {
-            List<ApplicationNode> Applications = db.GetLatestApplicationVersions().ToList();
-            List<DatabaseNode> Databases = db.Databases.ToList();
-            List<ExternalLogicalStorageNode> ExternalLosticalStorages = db.ExternalLogicalStorages.ToList();
-            List<ServerOrApplianceNode> ServersOrAppliances = db.ServerOrAppliances.ToList();
-            List<SoftwareOrFrameworkNode> SoftwareOrFrameworks = db.SoftwareOrFrameworks.ToList();
-            ViewData["Applications"] = Applications;
-            ViewData["Databases"] = Databases;
-            ViewData["ExternalLosticalStorages"] = ExternalLosticalStorages;
-            ViewData["ServersOrAppliances"] = ServersOrAppliances;
-            ViewData["SoftwareOrFrameworks"] = SoftwareOrFrameworks;
-
+            ViewData["Applications"] = db.GetLatestApplicationVersions().ToList();
+            ViewData["Databases"] = db.Databases.ToList();
+            ViewData["ExternalLosticalStorages"] = db.ExternalLogicalStorages.ToList();
+            ViewData["ServersOrAppliances"] = db.ServerOrAppliances.ToList();
+            ViewData["SoftwareOrFrameworks"] = db.SoftwareOrFrameworks.ToList();
             return View("Create");
         }
 
@@ -197,7 +191,7 @@ namespace AOCMDB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CreatedByUser,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] ApplicationNode application)
+        public ActionResult Create([Bind(Include = "CreatedByUser,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] ApplicationNode application, FormCollection  Form)
         {
             application.DatabaseRevision = 1;
             application.CreatedAt = DateTime.Now;
@@ -220,9 +214,80 @@ namespace AOCMDB.Controllers
             {
                 db.Applications.Add(application);
                 db.SaveChanges();
+                //Now Add Dependencies
+                string[] ApplicationDeps= Form.AllKeys.Where(P => P.Contains("ApplicationID:")).ToArray();
+                foreach (string Dep in ApplicationDeps)
+                {
+                    try
+                    {
+                        int id = int.Parse(Dep.Split(':').Last());
+                        if (Form.Get(Dep).Contains("true"))
+                        {
+                            db.ApplicationToApplicationDependencys.Add(new ApplicationToApplicationDependency() { DownstreamApplicationId = application.ApplicationId, DownstreamDatabaseRevision = application.DatabaseRevision, UpstreamApplicationID = id });
+                        }
+                    }
+                    catch { }
+                }
+                string[] DatabaseDeps = Form.AllKeys.Where(P => P.Contains("DatabaseID:")).ToArray();
+                foreach (string Dep in DatabaseDeps)
+                {
+                    try
+                    {
+                        int id = int.Parse(Dep.Split(':').Last());
+                        if (Form.Get(Dep).Contains("true"))
+                        {
+                            db.ApplicationToDatabaseDependencys.Add(new ApplicationToDatabaseDependency() { DownstreamApplicationId = application.ApplicationId, DownstreamDatabaseRevision = application.DatabaseRevision, UpstreamDatabaseNodeID = id });
+                        }
+                    }
+                    catch { }
+                }
+                string[] ExternalLosticalStorageDeps = Form.AllKeys.Where(P => P.Contains("ExternalLosticalStorageID:")).ToArray();
+                foreach (string Dep in ExternalLosticalStorageDeps)
+                {
+                    try
+                    {
+                        int id = int.Parse(Dep.Split(':').Last());
+                        if (Form.Get(Dep).Contains("true"))
+                        {
+                            db.ApplicationToExternalLogicalStorageDependencys.Add(new ApplicationToExternalLogicalStorageDependency() { DownstreamApplicationId = application.ApplicationId, DownstreamDatabaseRevision = application.DatabaseRevision, UpstreamExternalLogicalStorageNodeNodeID = id });
+                        }
+                    }
+                    catch { }
+                }
+                string[] ServerOrApplianceDeps = Form.AllKeys.Where(P => P.Contains("ServerOrApplianceID:")).ToArray();
+                foreach (string Dep in ServerOrApplianceDeps)
+                {
+                    try
+                    {
+                        int id = int.Parse(Dep.Split(':').Last());
+                        if (Form.Get(Dep).Contains("true"))
+                        {
+                            db.ApplicationToServerDependencys.Add(new ApplicationToServerOrApplianceDependency() { DownstreamApplicationId = application.ApplicationId, DownstreamDatabaseRevision = application.DatabaseRevision, UpstreamServerOrApplianceNodeID = id });
+                        }
+                    }
+                    catch { }
+                }
+                string[] SoftwareOrFrameworkDeps = Form.AllKeys.Where(P => P.Contains("SoftwareOrFrameworkID:")).ToArray();
+                foreach (string Dep in SoftwareOrFrameworkDeps)
+                {
+                    try
+                    {
+                        int id = int.Parse(Dep.Split(':').Last());
+                        if (Form.Get(Dep).Contains("true"))
+                        {
+                            db.ApplicationToSoftwareOrFrameworkDependencys.Add(new ApplicationToSoftwareOrFrameworkDependency() { DownstreamApplicationId = application.ApplicationId, DownstreamDatabaseRevision = application.DatabaseRevision, UpstreamApplicationToSoftwareOrFrameworkDependencyID = id });
+                        }
+                    }
+                    catch { }
+                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewData["Applications"] = db.GetLatestApplicationVersions().ToList();
+            ViewData["Databases"] = db.Databases.ToList();
+            ViewData["ExternalLosticalStorages"] = db.ExternalLogicalStorages.ToList();
+            ViewData["ServersOrAppliances"] = db.ServerOrAppliances.ToList();
+            ViewData["SoftwareOrFrameworks"] = db.SoftwareOrFrameworks.ToList();
             return View("Create", application);
         }
 
@@ -238,6 +303,18 @@ namespace AOCMDB.Controllers
             {
                 return HttpNotFound();
             }
+            ViewData["Applications"] = db.GetLatestApplicationVersions().Where(P=>P.ApplicationId != application.ApplicationId).ToList();
+            ViewData["Databases"] = db.Databases.ToList();
+            ViewData["ExternalLosticalStorages"] = db.ExternalLogicalStorages.ToList();
+            ViewData["ServersOrAppliances"] = db.ServerOrAppliances.ToList();
+            ViewData["SoftwareOrFrameworks"] = db.SoftwareOrFrameworks.ToList();
+            //Dependencies!
+            ViewData["ApplicationsDep"] = db.ApplicationToApplicationDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["DatabasesDep"] = db.ApplicationToDatabaseDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["ExternalLosticalStoragesDep"] = db.ApplicationToExternalLogicalStorageDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["ServersOrAppliancesDep"] = db.ApplicationToServerDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["SoftwareOrFrameworksDep"] = db.ApplicationToSoftwareOrFrameworkDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+
             return View("Edit", application);
         }
 
@@ -246,7 +323,7 @@ namespace AOCMDB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ApplicationId,DatabaseRevision,CreatedByUser,CreatedAt,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] ApplicationNode application)
+        public ActionResult Edit([Bind(Include = "ApplicationId,DatabaseRevision,CreatedByUser,CreatedAt,ApplicationName,GlobalApplicationID,SiteURL,NetworkDiagramOrInventory,AdministrativeProcedures,ContactInformation,ClientConfigurationAndValidation,ServerConfigurationandValidation,RecoveryProcedures")] ApplicationNode application, FormCollection Form)
         {
             ApplicationNode newAppTest;
             if (ModelState.IsValid)//If valid, try saving. Else return to edit page with validation errors
@@ -270,6 +347,73 @@ namespace AOCMDB.Controllers
 
                     db.Applications.Add(newAppTest);
                     db.SaveChanges();
+                    //Now Add Dependencies
+                    string[] ApplicationDeps = Form.AllKeys.Where(P => P.Contains("ApplicationID:")).ToArray();
+                    foreach (string Dep in ApplicationDeps)
+                    {
+                        try
+                        {
+                            int id = int.Parse(Dep.Split(':').Last());
+                            if (Form.Get(Dep).Contains("true"))
+                            {
+                                db.ApplicationToApplicationDependencys.Add(new ApplicationToApplicationDependency() { DownstreamApplicationId = newAppTest.ApplicationId, DownstreamDatabaseRevision = newAppTest.DatabaseRevision, UpstreamApplicationID = id });
+                            }
+                        }
+                        catch { }
+                    }
+                    string[] DatabaseDeps = Form.AllKeys.Where(P => P.Contains("DatabaseID:")).ToArray();
+                    foreach (string Dep in DatabaseDeps)
+                    {
+                        try
+                        {
+                            int id = int.Parse(Dep.Split(':').Last());
+                            if (Form.Get(Dep).Contains("true"))
+                            {
+                                db.ApplicationToDatabaseDependencys.Add(new ApplicationToDatabaseDependency() { DownstreamApplicationId = newAppTest.ApplicationId, DownstreamDatabaseRevision = newAppTest.DatabaseRevision, UpstreamDatabaseNodeID = id });
+                            }
+                        }
+                        catch { }
+                    }
+                    string[] ExternalLosticalStorageDeps = Form.AllKeys.Where(P => P.Contains("ExternalLosticalStorageID:")).ToArray();
+                    foreach (string Dep in ExternalLosticalStorageDeps)
+                    {
+                        try
+                        {
+                            int id = int.Parse(Dep.Split(':').Last());
+                            if (Form.Get(Dep).Contains("true"))
+                            {
+                                db.ApplicationToExternalLogicalStorageDependencys.Add(new ApplicationToExternalLogicalStorageDependency() { DownstreamApplicationId = newAppTest.ApplicationId, DownstreamDatabaseRevision = newAppTest.DatabaseRevision, UpstreamExternalLogicalStorageNodeNodeID = id });
+                            }
+                        }
+                        catch { }
+                    }
+                    string[] ServerOrApplianceDeps = Form.AllKeys.Where(P => P.Contains("ServerOrApplianceID:")).ToArray();
+                    foreach (string Dep in ServerOrApplianceDeps)
+                    {
+                        try
+                        {
+                            int id = int.Parse(Dep.Split(':').Last());
+                            if (Form.Get(Dep).Contains("true"))
+                            {
+                                db.ApplicationToServerDependencys.Add(new ApplicationToServerOrApplianceDependency() { DownstreamApplicationId = newAppTest.ApplicationId, DownstreamDatabaseRevision = newAppTest.DatabaseRevision, UpstreamServerOrApplianceNodeID = id });
+                            }
+                        }
+                        catch { }
+                    }
+                    string[] SoftwareOrFrameworkDeps = Form.AllKeys.Where(P => P.Contains("SoftwareOrFrameworkID:")).ToArray();
+                    foreach (string Dep in SoftwareOrFrameworkDeps)
+                    {
+                        try
+                        {
+                            int id = int.Parse(Dep.Split(':').Last());
+                            if (Form.Get(Dep).Contains("true"))
+                            {
+                                db.ApplicationToSoftwareOrFrameworkDependencys.Add(new ApplicationToSoftwareOrFrameworkDependency() { DownstreamApplicationId = newAppTest.ApplicationId, DownstreamDatabaseRevision = newAppTest.DatabaseRevision, UpstreamApplicationToSoftwareOrFrameworkDependencyID = id });
+                            }
+                        }
+                        catch { }
+                    }
+                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -277,6 +421,17 @@ namespace AOCMDB.Controllers
                     application = newAppTest;
                 }
             }
+            ViewData["Applications"] = db.GetLatestApplicationVersions().Where(P => P.ApplicationId != application.ApplicationId).ToList();
+            ViewData["Databases"] = db.Databases.ToList();
+            ViewData["ExternalLosticalStorages"] = db.ExternalLogicalStorages.ToList();
+            ViewData["ServersOrAppliances"] = db.ServerOrAppliances.ToList();
+            ViewData["SoftwareOrFrameworks"] = db.SoftwareOrFrameworks.ToList();
+            //Dependencies!
+            ViewData["ApplicationsDep"] = db.ApplicationToApplicationDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["DatabasesDep"] = db.ApplicationToDatabaseDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["ExternalLosticalStoragesDep"] = db.ApplicationToExternalLogicalStorageDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["ServersOrAppliancesDep"] = db.ApplicationToServerDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
+            ViewData["SoftwareOrFrameworksDep"] = db.ApplicationToSoftwareOrFrameworkDependencys.Where(P => P.DownstreamApplicationId == application.ApplicationId && P.DownstreamDatabaseRevision == application.DatabaseRevision).ToList();
             return View("Edit", application);
         }       
 

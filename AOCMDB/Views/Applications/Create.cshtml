@@ -98,43 +98,89 @@
         </div>
 
         <div class="form-group">
-            Dependencies:
-            
-            <table class="table">
-                <tr>
-                    <th>
-                        Upstream Application Dependencies
-                    </th>
-                    <th>
-                        Upstream Database Dependencies
-                    </th>
-                    <th>
-                        Upstream External Logical Storage
-                    </th>
-                    <th>
-                        Upstream Server or Appliance
-                    </th>
-                    <th>
-                        Upstream Software Or Framework
-                    </th>
-                </tr>
-
+            <label class="control-label col-md-2">Dependencies</label>        
+            <div class="col-md-10">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Upstream Application Dependencies
+                        </th>
+                        <th>
+                            Upstream Database Dependencies
+                        </th>
+                        <th>
+                            Upstream External Logical Storage
+                        </th>
+                        <th>
+                            Upstream Server or Appliance
+                        </th>
+                        <th>
+                            Upstream Software Or Framework
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                @foreach (AOCMDB.Models.Nodes.ApplicationNode App in Applications)
+                                {
+                                    <li>
+                                        @Html.CheckBox(string.Concat("ApplicationID:", App.ApplicationId))
+                                        @App.ApplicationName
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (AOCMDB.Models.Nodes.DatabaseNode App in Databases)
+                                {
+                                    <li>
+                                        @Html.CheckBox(string.Concat("DatabaseID:", App.DatabaseId))
+                                        @App.DatabaseName
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (AOCMDB.Models.Nodes.ExternalLogicalStorageNode App in ExternalLosticalStorages)
+                                {
+                                    <li>
+                                        @Html.CheckBox(string.Concat("ExternalLosticalStorageID:", App.ExternalLogicalStorageId))
+                                        @App.ExternalLogicalStorageName
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (AOCMDB.Models.Nodes.ServerOrApplianceNode App in ServersOrAppliances)
+                                {
+                                    <li>
+                                        @Html.CheckBox(string.Concat("ServerOrApplianceID:", App.ServerOrApplianceId))
+                                        @App.ServerOrApplianceName
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (AOCMDB.Models.Nodes.SoftwareOrFrameworkNode App in SoftwareOrFrameworks)
+                                {
+                                    <li>
+                                        @Html.CheckBox(string.Concat("SoftwareOrFrameworkID:", App.SoftwareOrFrameworkId))
+                                        @App.SoftwareOrFrameworkName
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
                 </table>
+            </div> 
+        </div>
+            
 
-                <div class="col-md-10">
-                    <ul>
-                        @foreach (AOCMDB.Models.Nodes.ApplicationNode App in Applications)
-                        {
-                            <li>
-                                @Html.CheckBox(string.Concat("ApplicationID:", App.ApplicationId))
-                                @App.ApplicationName
-                            </li>
-                        }
-                    </ul>
-                </div>
-</div>
-
-
+            
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
