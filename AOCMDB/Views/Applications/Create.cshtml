@@ -2,6 +2,11 @@
 
 @{
     ViewBag.Title = "Create";
+    List<AOCMDB.Models.Nodes.ApplicationNode> Applications = (List<AOCMDB.Models.Nodes.ApplicationNode>)ViewData["Applications"];
+    List<AOCMDB.Models.Nodes.DatabaseNode> Databases = (List<AOCMDB.Models.Nodes.DatabaseNode>)ViewData["Databases"];
+    List<AOCMDB.Models.Nodes.ExternalLogicalStorageNode> ExternalLosticalStorages = (List<AOCMDB.Models.Nodes.ExternalLogicalStorageNode>)ViewData["ExternalLosticalStorages"];
+    List<AOCMDB.Models.Nodes.ServerOrApplianceNode> ServersOrAppliances = (List<AOCMDB.Models.Nodes.ServerOrApplianceNode>)ViewData["ServersOrAppliances"];
+    List<AOCMDB.Models.Nodes.SoftwareOrFrameworkNode> SoftwareOrFrameworks = (List<AOCMDB.Models.Nodes.SoftwareOrFrameworkNode>)ViewData["SoftwareOrFrameworks"];
 }
 
 <h2>Create</h2>
@@ -91,6 +96,44 @@
                 @Html.ValidationMessageFor(model => model.RecoveryProcedures, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            Dependencies:
+            
+            <table class="table">
+                <tr>
+                    <th>
+                        Upstream Application Dependencies
+                    </th>
+                    <th>
+                        Upstream Database Dependencies
+                    </th>
+                    <th>
+                        Upstream External Logical Storage
+                    </th>
+                    <th>
+                        Upstream Server or Appliance
+                    </th>
+                    <th>
+                        Upstream Software Or Framework
+                    </th>
+                </tr>
+
+                </table>
+
+                <div class="col-md-10">
+                    <ul>
+                        @foreach (AOCMDB.Models.Nodes.ApplicationNode App in Applications)
+                        {
+                            <li>
+                                @Html.CheckBox(string.Concat("ApplicationID:", App.ApplicationId))
+                                @App.ApplicationName
+                            </li>
+                        }
+                    </ul>
+                </div>
+</div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

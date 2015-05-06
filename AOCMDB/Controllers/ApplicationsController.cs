@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AOCMDB.Models;
 using AOCMDB.Models.Nodes;
+using AOCMDB.Models.Relationships;
 
 
 namespace AOCMDB.Controllers
@@ -31,6 +32,15 @@ namespace AOCMDB.Controllers
         {
             ViewBag.Title = "Index";
             List<ApplicationNode> LatestApplicationVersions = db.GetLatestApplicationVersions().ToList();
+
+            return View("Index", LatestApplicationVersions);
+        }
+
+        // GET: Applications
+        public ActionResult Dependenies(int id, int[] selected)
+        {
+            ViewBag.Title = "Dependenies";
+            List<ApplicationNode> LatestApplicationVersions = db.GetLatestApplicationVersions().Where(P=>P.ApplicationId != id).ToList();
 
             return View("Index", LatestApplicationVersions);
         }
@@ -168,6 +178,17 @@ namespace AOCMDB.Controllers
         // GET: Applications/Create
         public ActionResult Create()
         {
+            List<ApplicationNode> Applications = db.GetLatestApplicationVersions().ToList();
+            List<DatabaseNode> Databases = db.Databases.ToList();
+            List<ExternalLogicalStorageNode> ExternalLosticalStorages = db.ExternalLogicalStorages.ToList();
+            List<ServerOrApplianceNode> ServersOrAppliances = db.ServerOrAppliances.ToList();
+            List<SoftwareOrFrameworkNode> SoftwareOrFrameworks = db.SoftwareOrFrameworks.ToList();
+            ViewData["Applications"] = Applications;
+            ViewData["Databases"] = Databases;
+            ViewData["ExternalLosticalStorages"] = ExternalLosticalStorages;
+            ViewData["ServersOrAppliances"] = ServersOrAppliances;
+            ViewData["SoftwareOrFrameworks"] = SoftwareOrFrameworks;
+
             return View("Create");
         }
 
