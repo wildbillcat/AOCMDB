@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<AOCMDB.Models.Nodes.ApplicationNode>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
 @using (Html.BeginForm())
@@ -37,13 +33,17 @@
     <text>Search Field:</text>
     @Html.DropDownList("SearchField", items)
     
+    @Html.Hidden("id", @User.Identity.Name)
+
     <input type="submit" value="Search" class="btn btn-default" />
 }
 </p>
-
-<p>
-    <input type="button" value="Create New" onclick="location.href='@Url.Action("Create")'" />
-</p>
+@if (ViewBag.Title == "Index")
+{
+    <p>
+        <input type="button" value="Create New" onclick="location.href='@Url.Action("Create")'" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>

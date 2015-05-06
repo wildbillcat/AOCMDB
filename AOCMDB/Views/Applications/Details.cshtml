@@ -328,5 +328,6 @@
 </div>
 <p>
     <input type="button" value="Edit" onclick="location.href='@Url.Action("Edit", new { id = Model.ApplicationId, version = Model.DatabaseRevision })'" /> |
+    <input type="button" value="History" onclick="location.href='@Url.Action("History", new { id = Model.ApplicationId })'" /> |
     <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index")'" />
 </p>

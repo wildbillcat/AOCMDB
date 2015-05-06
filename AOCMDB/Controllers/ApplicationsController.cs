@@ -29,6 +29,7 @@ namespace AOCMDB.Controllers
         // GET: Applications
         public ActionResult Index()
         {
+            ViewBag.Title = "Index";
             List<ApplicationNode> LatestApplicationVersions = db.GetLatestApplicationVersions().ToList();
 
             return View("Index", LatestApplicationVersions);
@@ -39,6 +40,7 @@ namespace AOCMDB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(string SearchTerm, string SearchField)
         {
+            ViewBag.Title = "Index";
             List<ApplicationNode> Results;
             switch(SearchField){
                 case "ApplicationName":
@@ -95,6 +97,72 @@ namespace AOCMDB.Controllers
                 return HttpNotFound();
             }
             return View("Details", application);
+        }
+
+        // GET: Applications/History/5
+        public ActionResult History(int? id)
+        {
+            ViewBag.Title = "History";
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            List<ApplicationNode> LatestApplicationVersions = db.Applications.Where(P=>P.ApplicationId == id).ToList();
+
+            return View("Index", LatestApplicationVersions);
+        }
+
+        //POST: History Search
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult History(int? id, string SearchTerm, string SearchField)
+        {
+            ViewBag.Title = "History";
+            List<ApplicationNode> Results;
+            switch (SearchField)
+            {
+                case "ApplicationName":
+                    Results = db.Applications.Where(P=>P.ApplicationId == id).Where(P => P.ApplicationName != null && P.ApplicationName.Contains(SearchTerm)).ToList();
+                    break;
+                case "GlobalApplicationID":
+                    int globalID;
+                    try
+                    {
+                        globalID = int.Parse(SearchTerm);
+                    }
+                    catch
+                    {//If invalid ID was given, just return empty list
+                        Results = new List<ApplicationNode>();
+                        break;
+                    }
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.GlobalApplicationID == globalID).ToList();
+                    break;
+                case "SiteURL":
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.SiteURL != null && P.SiteURL.Contains(SearchTerm)).ToList();
+                    break;
+                case "NetworkDiagramOrInventory":
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.NetworkDiagramOrInventory != null && P.NetworkDiagramOrInventory.Contains(SearchTerm)).ToList();
+                    break;
+                case "AdministrativeProcedures":
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.AdministrativeProcedures != null && P.AdministrativeProcedures.Contains(SearchTerm)).ToList();
+                    break;
+                case "ContactInformation":
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.ContactInformation != null && P.ContactInformation.Contains(SearchTerm)).ToList();
+                    break;
+                case "ClientConfigurationAndValidation":
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.ClientConfigurationAndValidation != null && P.ClientConfigurationAndValidation.Contains(SearchTerm)).ToList();
+                    break;
+                case "ServerConfigurationandValidation":
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.ServerConfigurationandValidation != null && P.ServerConfigurationandValidation.Contains(SearchTerm)).ToList();
+                    break;
+                case "RecoveryProcedures":
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => P.RecoveryProcedures != null && P.RecoveryProcedures.Contains(SearchTerm)).ToList();
+                    break;
+                default: //all
+                    Results = db.Applications.Where(P => P.ApplicationId == id).Where(P => (P.ApplicationName != null && P.ApplicationName.Contains(SearchTerm)) || (P.SiteURL != null && P.SiteURL.Contains(SearchTerm)) || (P.NetworkDiagramOrInventory != null && P.NetworkDiagramOrInventory.Contains(SearchTerm)) || (P.AdministrativeProcedures != null && P.AdministrativeProcedures.Contains(SearchTerm)) || (P.ContactInformation != null && P.ContactInformation.Contains(SearchTerm)) || (P.ClientConfigurationAndValidation != null && P.ClientConfigurationAndValidation.Contains(SearchTerm)) || (P.ServerConfigurationandValidation != null && P.ServerConfigurationandValidation.Contains(SearchTerm)) || (P.RecoveryProcedures != null && P.RecoveryProcedures.Contains(SearchTerm))).ToList();
+                    break;
+            }
+            return View("Index", Results);
         }
 
         // GET: Applications/Create
