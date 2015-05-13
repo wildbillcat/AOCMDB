@@ -109,6 +109,37 @@ namespace AOCMDB.Controllers
             return View("Details", application);
         }
 
+        // GET: Applications/GenerateProfile/5
+        public ActionResult ApplicationTemplateIndex(int? id, int? version, string TemplateName)
+        {
+            if (id == null || version == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationNode application = db.Applications.Find((int)id, (int)version);
+            if (application == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("Details", application);
+        }
+
+        // GET: Applications/GenerateProfile/5
+        public ActionResult ApplicationTemplateDetails(int? id, int? version, string TemplateName)
+        {
+            if (id == null || version == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationNode application = db.Applications.Find((int)id, (int)version);
+            if (application == null)
+            {
+                return HttpNotFound();
+            }
+            return View("Details", application);
+        }
+
         // GET: Applications/History/5
         public ActionResult History(int? id)
         {
@@ -121,6 +152,8 @@ namespace AOCMDB.Controllers
 
             return View("Index", LatestApplicationVersions);
         }
+
+
 
         //POST: History Search
         [HttpPost]
