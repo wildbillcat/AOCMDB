@@ -152,7 +152,7 @@
                         Friendly Name
                     </th>
                     <th>
-                        Database Type 
+                        Database Type
                     </th>
                     <th>
                     </th>
@@ -181,7 +181,7 @@
         <dt style="text-align: center;padding-top:4em">
             Upstream External Logical Storage Dependencies
         </dt>
-            
+
         <dd>
             <table class="table">
                 <tr>
@@ -190,7 +190,7 @@
                     </th>
                     <th>
                         Friendly Name
-                    </th>                    
+                    </th>
                     <th>
                     </th>
                 </tr>
@@ -203,7 +203,7 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FriendlyName)
-                        </td>                        
+                        </td>
                         <td>
                             @Html.ActionLink("Details", "Details", "ExternalLogicalStorages", new { id = item.ExternalLogicalStorageId }, null)
                         </td>
@@ -331,3 +331,20 @@
     <input type="button" value="History" onclick="location.href='@Url.Action("History", new { id = Model.ApplicationId })'" /> |
     <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index")'" />
 </p>
+@if (ViewData["TemplateNames"] != null)
+{
+    <h2>Application Templates</h2>
+    <table>
+        <tr>
+            <th></th><th>Template Type</th>
+        </tr>
+        @foreach (string filename in (List<string>)ViewData["TemplateNames"])
+        {
+            <tr>
+                <td><img src="~/Content/word.png" /></td>
+                <td>@filename</td>
+            </tr>
+        }
+    </table>
+}
+

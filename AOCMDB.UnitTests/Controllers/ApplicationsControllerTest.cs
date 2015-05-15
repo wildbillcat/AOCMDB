@@ -119,7 +119,7 @@ namespace AOCMDB.UnitTests
 
             controller.TestModel(test);
 
-            var result = controller.Create(test) as ViewResult;
+            var result = controller.Create(test, new FormCollection()) as ViewResult;
 
             Assert.IsNull(result);
         }
@@ -139,7 +139,7 @@ namespace AOCMDB.UnitTests
 
             controller.TestModel(test);
 
-            var result = controller.Create(test) as ViewResult;
+            var result = controller.Create(test, new FormCollection()) as ViewResult;
 
             Assert.AreEqual(expected, result.ViewName);
         }
@@ -175,7 +175,7 @@ namespace AOCMDB.UnitTests
         [TestMethod]
         public void EditActionReturnsEditViewNullIDandVersion()
         {
-            var result = controller.Edit(null, null) as HttpStatusCodeResult;
+            var result = controller.EditGet(null, null) as HttpStatusCodeResult;
 
             Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
         }
@@ -216,7 +216,7 @@ namespace AOCMDB.UnitTests
                     CreatedAt = DateTime.Now,
                     ApplicationName = "AngryClicky",
                     GlobalApplicationID = 555
-                }
+                }, new FormCollection()
                 ) as ViewResult;
 
             Assert.IsNull(result);
@@ -236,7 +236,7 @@ namespace AOCMDB.UnitTests
                     CreatedAt = DateTime.Now,
                     ApplicationName = "AngryClicky",
                     GlobalApplicationID = 555
-                }
+                }, new FormCollection()
                 ) as ViewResult;
 
             Assert.AreEqual(expected, result.ViewName);
@@ -255,7 +255,7 @@ namespace AOCMDB.UnitTests
                     CreatedByUser = "UnitTest",
                     CreatedAt = DateTime.Now,
                     ApplicationName = "AngryClicky"
-                }
+                }, new FormCollection()
                 ) as ViewResult;
 
             Assert.AreEqual(expected, result.ViewName);

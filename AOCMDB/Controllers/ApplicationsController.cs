@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using AOCMDB.Models;
 using AOCMDB.Models.Nodes;
 using AOCMDB.Models.Relationships;
+using DocumentFormat.OpenXml.Packaging;
+using System.IO;
+using System.Text;
 
 
 namespace AOCMDB.Controllers
@@ -16,6 +19,8 @@ namespace AOCMDB.Controllers
     public class ApplicationsController : Controller
     {
         private AOCMDBContext db;
+
+        static Object TemplateGeneration = new Object();
 
         public ApplicationsController() : base()
         {
@@ -106,38 +111,107 @@ namespace AOCMDB.Controllers
             {
                 return HttpNotFound();
             }
+            IEnumerable<string> filepaths = System.IO.Directory.EnumerateFiles(Server.MapPath("~/App_Data/ApplicationTemplates"), "*.docx");
+            List<string> files = new List<string>();
+            foreach (string filepath in filepaths)
+            {
+                files.Add(filepath.Split('\\').Last());
+            }
+            ViewData["TemplateNames"] = files;
             return View("Details", application);
         }
 
         // GET: Applications/GenerateProfile/5
-        public ActionResult ApplicationTemplateIndex(int? id, int? version, string TemplateName)
+        public ActionResult DownloadApplicationTemplate(int? id, int? version, string TemplateName)
         {
-            if (id == null || version == null)
+            if (id == null || version == null || TemplateName == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ApplicationNode application = db.Applications.Find((int)id, (int)version);
-            if (application == null)
+            string FilePath = HttpContext.Server.MapPath(string.Concat("~/App_Data/", TemplateName));
+            if (application == null || !System.IO.File.Exists(FilePath))
             {
                 return HttpNotFound();
             }
 
-            return View("Details", application);
-        }
-
-        // GET: Applications/GenerateProfile/5
-        public ActionResult ApplicationTemplateDetails(int? id, int? version, string TemplateName)
-        {
-            if (id == null || version == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (!System.IO.Directory.Exists(Server.MapPath("~/App_Data/ApplicationDocx")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/App_Data/ApplicationDocx"));
+                }
             }
-            ApplicationNode application = db.Applications.Find((int)id, (int)version);
-            if (application == null)
+            catch { }
+
+            string NewFile = string.Concat(Server.MapPath("~/App_Data/ApplicationDocx/"), application.ApplicationId, "_", application.DatabaseRevision, "_", application.ApplicationName, "_", TemplateName);
+            //Test if File has previously been Generated
+            if (!System.IO.File.Exists(NewFile))
+            {
+                try
+                {
+                    //Generate the Word File
+                    lock (TemplateGeneration)
+                    {
+                        //Secondary Test to be sure file wasn't generated during first attempt
+                        if (!System.IO.File.Exists(NewFile))
+                        {
+                            System.IO.File.Copy(FilePath, NewFile);
+
+                            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(NewFile, false))
+                            {
+                                string documentText;
+                                using (StreamReader reader = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                                {
+                                    documentText = reader.ReadToEnd();
+                                }
+
+                                documentText = documentText.Replace("[ApplicationName]", application.ApplicationName);
+
+                                documentText = documentText.Replace("[GlobalApplicationID]", application.GlobalApplicationID.ToString());
+
+                                documentText = documentText.Replace("[SiteURL]", application.SiteURL);
+
+                                documentText = documentText.Replace("[NetworkDiagramOrInventory]", application.NetworkDiagramOrInventory);
+
+                                documentText = documentText.Replace("[AdministrativeProcedures]", application.AdministrativeProcedures);
+
+                                documentText = documentText.Replace("[ContactInformation]", application.ContactInformation);
+
+                                documentText = documentText.Replace("[ClientConfigurationAndValidation]", application.ClientConfigurationAndValidation);
+
+                                documentText = documentText.Replace("[ServerConfigurationandValidation]", application.ServerConfigurationandValidation);
+
+                                StringBuilder Dependencies = new StringBuilder();
+                                //Dependencies.Append();
+
+                                documentText = documentText.Replace("[Dependencies]", Dependencies.ToString()); //
+
+                                documentText = documentText.Replace("[DatabaseRevision]", application.DatabaseRevision.ToString());
+
+                                StringBuilder History = new StringBuilder();
+                                documentText = documentText.Replace("[DocumentHistory]", History.ToString()); //
+
+                                using (StreamWriter writer = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
+                                {
+                                    writer.Write(documentText);
+                                }
+
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    
+                }
+            }
+
+            if (!System.IO.File.Exists(NewFile))
             {
                 return HttpNotFound();
             }
-            return View("Details", application);
+            return File(NewFile, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", string.Concat(application.ApplicationId, "_", application.DatabaseRevision, "_", application.ApplicationName, "_", TemplateName));
         }
 
         // GET: Applications/History/5
@@ -322,6 +396,11 @@ namespace AOCMDB.Controllers
             ViewData["ServersOrAppliances"] = db.ServerOrAppliances.ToList();
             ViewData["SoftwareOrFrameworks"] = db.SoftwareOrFrameworks.ToList();
             return View("Create", application);
+        }
+
+        public ActionResult EditGet(int? id, int? version)
+        {
+            return Edit(id, version);
         }
 
         // GET: Applications/Edit/5
