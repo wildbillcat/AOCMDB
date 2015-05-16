@@ -183,7 +183,30 @@ namespace AOCMDB.Controllers
                                 documentText = documentText.Replace("[ServerConfigurationandValidation]", application.ServerConfigurationandValidation);
 
                                 StringBuilder Dependencies = new StringBuilder();
-                                //Dependencies.Append();
+                                Dependencies.Append("<dl>");
+
+
+                                //Start Application Dependencies
+                                Dependencies.Append("<dt>Upstream Application Dependencies</dt>");
+                                Dependencies.Append(@"<dd><table><tr><th>Application Name</th><th>Global Application ID</th></tr>");
+                                foreach (ApplicationNode UpstreamApp in application.GetUpstreamApplicationDependencies())
+                                {
+                                    Dependencies.Append(@"<tr><th>Application Name</th><th>Global Application ID</th></tr>");
+                                    Dependencies.Append(UpstreamApp.ApplicationName);
+                                    Dependencies.Append("</th><th>");
+                                    Dependencies.Append(UpstreamApp.GlobalApplicationID.ToString());
+                                    Dependencies.Append("</th></tr>");
+                                }                                
+                                Dependencies.Append("</table></dd>");
+                                //End Application Dependencies
+
+
+
+
+
+
+                                //End List
+                                Dependencies.Append("</dl>");
 
                                 documentText = documentText.Replace("[Dependencies]", Dependencies.ToString()); //
 
