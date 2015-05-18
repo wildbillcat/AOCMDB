@@ -129,7 +129,7 @@ namespace AOCMDB.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ApplicationNode application = db.Applications.Find((int)id, (int)version);
-            string FilePath = HttpContext.Server.MapPath(string.Concat("~/App_Data/", TemplateName));
+            string FilePath = HttpContext.Server.MapPath(string.Concat("~/App_Data/ApplicationTemplates/", TemplateName));
             if (application == null || !System.IO.File.Exists(FilePath))
             {
                 return HttpNotFound();
@@ -158,7 +158,7 @@ namespace AOCMDB.Controllers
                         {
                             System.IO.File.Copy(FilePath, NewFile);
 
-                            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(NewFile, false))
+                            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(NewFile, true))
                             {
                                 string documentText;
                                 using (StreamReader reader = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
@@ -166,38 +166,47 @@ namespace AOCMDB.Controllers
                                     documentText = reader.ReadToEnd();
                                 }
 
-                                documentText = documentText.Replace("[ApplicationName]", application.ApplicationName);
+                                documentText = documentText.Replace("ApplicationNameVar", application.ApplicationName);
 
-                                documentText = documentText.Replace("[GlobalApplicationID]", application.GlobalApplicationID.ToString());
+                                documentText = documentText.Replace("GlobalApplicationIDVar", application.GlobalApplicationID.ToString());
 
-                                documentText = documentText.Replace("[SiteURL]", application.SiteURL);
+                                documentText = documentText.Replace("SiteURLVar", application.SiteURL);
 
-                                documentText = documentText.Replace("[NetworkDiagramOrInventory]", application.NetworkDiagramOrInventory);
+                                documentText = documentText.Replace("NetworkDiagramOrInventoryVar", application.NetworkDiagramOrInventory);
 
-                                documentText = documentText.Replace("[AdministrativeProcedures]", application.AdministrativeProcedures);
+                                documentText = documentText.Replace("AdministrativeProceduresVar", application.AdministrativeProcedures);
 
-                                documentText = documentText.Replace("[ContactInformation]", application.ContactInformation);
+                                documentText = documentText.Replace("ContactInformationVar", application.ContactInformation);
 
-                                documentText = documentText.Replace("[ClientConfigurationAndValidation]", application.ClientConfigurationAndValidation);
+                                documentText = documentText.Replace("ClientConfigurationAndValidationVar", application.ClientConfigurationAndValidation);
 
-                                documentText = documentText.Replace("[ServerConfigurationandValidation]", application.ServerConfigurationandValidation);
+                                documentText = documentText.Replace("ServerConfigurationandValidationVar", application.ServerConfigurationandValidation);
+
+                                documentText = documentText.Replace("RecoveryProceduresVar", application.RecoveryProcedures);
+
+                                documentText = documentText.Replace("DatabaseRevisionVar", application.DatabaseRevision.ToString());
+                                
 
                                 StringBuilder Dependencies = new StringBuilder();
-                                Dependencies.Append("<dl>");
+                               // Dependencies.Append("<dl>");
 
 
                                 //Start Application Dependencies
-                                Dependencies.Append("<dt>Upstream Application Dependencies</dt>");
-                                Dependencies.Append(@"<dd><table><tr><th>Application Name</th><th>Global Application ID</th></tr>");
-                                foreach (ApplicationNode UpstreamApp in application.GetUpstreamApplicationDependencies())
+                                List<ApplicationNode> Apps = application.GetUpstreamApplicationDependencies().ToList();
+                                if (Apps.Count > 0)
                                 {
-                                    Dependencies.Append(@"<tr><th>Application Name</th><th>Global Application ID</th></tr>");
-                                    Dependencies.Append(UpstreamApp.ApplicationName);
-                                    Dependencies.Append("</th><th>");
-                                    Dependencies.Append(UpstreamApp.GlobalApplicationID.ToString());
-                                    Dependencies.Append("</th></tr>");
+                                    Dependencies.Append("<dt>Upstream Application Dependencies</dt>");
+                                    Dependencies.Append(@"<dd><table><tr><th>Application Name</th><th>Global Application ID</th></tr>");
+                                    foreach (ApplicationNode UpstreamApp in application.GetUpstreamApplicationDependencies())
+                                    {
+                                        Dependencies.Append(@"<tr><th>Application Name</th><th>Global Application ID</th></tr>");
+                                        Dependencies.Append(UpstreamApp.ApplicationName);
+                                        Dependencies.Append("</th><th>");
+                                        Dependencies.Append(UpstreamApp.GlobalApplicationID.ToString());
+                                        Dependencies.Append("</th></tr>");
+                                    }
+                                    Dependencies.Append("</table></dd>");
                                 }                                
-                                Dependencies.Append("</table></dd>");
                                 //End Application Dependencies
 
 
@@ -206,14 +215,14 @@ namespace AOCMDB.Controllers
 
 
                                 //End List
-                                Dependencies.Append("</dl>");
+                                //Dependencies.Append("</dl>");
 
-                                documentText = documentText.Replace("[Dependencies]", Dependencies.ToString()); //
+                                documentText = documentText.Replace("DependenciesVar", Dependencies.ToString()); //
 
-                                documentText = documentText.Replace("[DatabaseRevision]", application.DatabaseRevision.ToString());
+                                documentText = documentText.Replace("DatabaseRevisionVar", application.DatabaseRevision.ToString());
 
                                 StringBuilder History = new StringBuilder();
-                                documentText = documentText.Replace("[DocumentHistory]", History.ToString()); //
+                                documentText = documentText.Replace("DocumentHistoryVar", History.ToString()); //
 
                                 using (StreamWriter writer = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
                                 {
@@ -224,9 +233,9 @@ namespace AOCMDB.Controllers
                         }
                     }
                 }
-                catch
+                catch (Exception e)
                 {
-                    
+                    System.Console.WriteLine(e.Message);
                 }
             }
 

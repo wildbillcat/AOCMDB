@@ -341,8 +341,10 @@
         @foreach (string filename in (List<string>)ViewData["TemplateNames"])
         {
             <tr>
-                <td><img src="~/Content/word.png" /></td>
-                <td>@filename</td>
+                
+                    <td><a href=@Url.Action("DownloadApplicationTemplate", "Applications", new { id = Model.ApplicationId, version = Model.DatabaseRevision, TemplateName = filename })><img src="~/Content/word.png" /></a></td>
+                    <td><a href=@Url.Action("DownloadApplicationTemplate", "Applications", new { id = Model.ApplicationId, version = Model.DatabaseRevision, TemplateName = filename })>@filename</a></td>
+                
             </tr>
         }
     </table>
