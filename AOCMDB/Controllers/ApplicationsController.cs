@@ -9,7 +9,9 @@ using System.Web.Mvc;
 using AOCMDB.Models;
 using AOCMDB.Models.Nodes;
 using AOCMDB.Models.Relationships;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System.IO;
 using System.Text;
 
@@ -188,22 +190,52 @@ namespace AOCMDB.Controllers
                                 
 
                                 StringBuilder Dependencies = new StringBuilder();
-                               // Dependencies.Append("<dl>");
+                                //General Table Properties
+                                TableProperties props = new TableProperties(
+                                     new TableBorders(
+                                     new TopBorder
+                                     {
+                                         Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                         Size = 12
+                                     },
+                                     new BottomBorder
+                                     {
+                                         Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                         Size = 12
+                                     },
+                                     new LeftBorder
+                                     {
+                                         Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                         Size = 12
+                                     },
+                                     new RightBorder
+                                     {
+                                         Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                         Size = 12
+                                     },
+                                     new InsideHorizontalBorder
+                                     {
+                                         Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                         Size = 12
+                                     },
+                                     new InsideVerticalBorder
+                                     {
+                                         Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                         Size = 12
+                                     }));
 
 
                                 //Start Application Dependencies
                                 List<ApplicationNode> Apps = application.GetUpstreamApplicationDependencies().ToList();
+                                
                                 if (Apps.Count > 0)
                                 {
-                                    Dependencies.Append("<dt>Upstream Application Dependencies</dt>");
-                                    Dependencies.Append(@"<dd><table><tr><th>Application Name</th><th>Global Application ID</th></tr>");
+                                    Table AppsTable = new Table();
+                                    AppsTable.AppendChild<TableProperties>(props);
                                     foreach (ApplicationNode UpstreamApp in application.GetUpstreamApplicationDependencies())
                                     {
-                                        Dependencies.Append(@"<tr><th>Application Name</th><th>Global Application ID</th></tr>");
-                                        Dependencies.Append(UpstreamApp.ApplicationName);
-                                        Dependencies.Append("</th><th>");
-                                        Dependencies.Append(UpstreamApp.GlobalApplicationID.ToString());
-                                        Dependencies.Append("</th></tr>");
+                                        var tr = new TableRow();
+                                        AppsTable.Append(tr);
                                     }
                                     Dependencies.Append("</table></dd>");
                                 }                                
