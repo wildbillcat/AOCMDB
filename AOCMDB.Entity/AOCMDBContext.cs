@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Data.Common;
 
-namespace AOCMDB.Models
+namespace AOCMDB.Entity
 {
     public class AOCMDBContext : DbContext
     {
