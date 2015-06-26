@@ -18,16 +18,16 @@ namespace AOCMDB.Models
         }
     }
 
-    public class IdentityDb : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public IdentityDb()
+        public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
-        public static IdentityDb Create()
+        public static ApplicationDbContext Create()
         {
-            return new IdentityDb();
+            return new ApplicationDbContext();
         }
     }
 }
