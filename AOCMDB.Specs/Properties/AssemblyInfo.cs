@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AOCMDB.Tests")]
+[assembly: AssemblyTitle("AOCMDB.Specs")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AOCMDB.Tests")]
+[assembly: AssemblyProduct("AOCMDB.Specs")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cbbc9040-9780-436e-b415-c3caa9856822")]
+[assembly: Guid("90fb6252-cc70-4ce9-9b73-ce31bdc80691")]
 
 // Version information for an assembly consists of the following four values:
 //
