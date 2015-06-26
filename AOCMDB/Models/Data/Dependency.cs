@@ -6,7 +6,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AOCMDB.Entity
+namespace AOCMDB.Models.Data
 {
     
     public abstract class Dependency
