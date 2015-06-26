@@ -95,5 +95,13 @@ namespace AOCMDB.Models.Data
 
         [Display(Name = "Comments", Description = "This is a list of validation steps for Server Interface(s)")]
         public string Comments { get; set; }
+
+        /// <summary>
+        /// This will be used for generating code flowers (http://www.redotheweb.com/CodeFlower/)
+        /// This will be used w/ a service to generate data (http://cloc.sourceforge.net/)
+        /// </summary>
+        [Display(Name = "Source Code Repositories", Description = "These are the direct paths to the source code, such as a TFS folder Path or GitHub Repo")]
+        public string SourceCodeRepositories { get; set; }
+        //Convert to Virtual member and another object type to allow more advanced validation and storage of the code flower json.
     }
 }

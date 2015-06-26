@@ -8,7 +8,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AOCMDB.Models.Data
 {
-    
+    /// <summary>
+    /// This generic class will allow dependency relationships to be made accross all objects in the database, 
+    /// which will allow for dependency visualization with the dependency wheel: http://www.redotheweb.com/DependencyWheel/
+    /// </summary>
     public abstract class Dependency
     {
         [Key]
