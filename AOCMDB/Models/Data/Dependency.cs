@@ -35,7 +35,8 @@ namespace AOCMDB.Models.Data
         /// The Human Readable Name
         /// </summary>
         [Required]
-        [Index(IsUnique = true)] 
+        [Index(IsUnique = true)]
+        [MaxLength(450)]
         public string Name { get; set; }
 
         /// <summary>

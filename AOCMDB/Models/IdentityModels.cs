@@ -33,11 +33,7 @@ namespace AOCMDB.Models
         }
 
         DbSet<Dependency> Dependencies { get; set; }
-        DbSet<Application> Applications { get; set; }
-        DbSet<DatabaseOrWarehouse> DatabaseOrWarehouses { get; set; }
-        DbSet<ExternalLogicalStorage> ExternalLogicalStorages { get; set; }
-        DbSet<ServerOrAppliance> ServerOrAppliances { get; set; }
-        DbSet<SoftwareOrFramework> SoftwareOrFrameworks { get; set; }
+
         DbSet<SourceCodeRepository> SourceCodeRepositories { get; set; }
 
         public class DefaultStartDataInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
