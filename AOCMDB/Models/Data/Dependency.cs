@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace AOCMDB.Models.Data
 {
@@ -34,12 +35,21 @@ namespace AOCMDB.Models.Data
         /// The Human Readable Name
         /// </summary>
         [Required]
+        [Index(IsUnique = true)] 
         public string Name { get; set; }
 
         /// <summary>
         /// The friendly name of the DatabaseNode
         /// </summary>
         public string FriendlyName { get; set; }
+
+        /// <summary>
+        /// This field gives a detailed description
+        /// </summary>
+        [AllowHtml]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Details", Description = "This field gives a detailed description of the External Logical Storage")]
+        public string Details { get; set; }
 
         public virtual ICollection<Dependency> DownstreamDependencies { get; set; }
         

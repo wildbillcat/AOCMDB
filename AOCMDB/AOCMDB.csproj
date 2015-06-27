@@ -183,7 +183,12 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Data\Database.cs" />
     <Compile Include="Models\Data\Dependency.cs" />
+    <Compile Include="Models\Data\ExternalLogicalStorage.cs" />
+    <Compile Include="Models\Data\ServerOrAppliance.cs" />
+    <Compile Include="Models\Data\SoftwareOrFramework.cs" />
+    <Compile Include="Models\Data\SourceCodeRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

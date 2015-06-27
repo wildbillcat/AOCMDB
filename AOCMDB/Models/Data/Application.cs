@@ -13,6 +13,7 @@ namespace AOCMDB.Models.Data
         /// <summary>
         /// The business defined ApplicationID
         /// </summary>
+        [Index(IsUnique = true)] 
         [Display(Name = "Global Application ID", Description = "The business defined ApplicationID")]
         public int GlobalApplicationID { get; set; }
 
@@ -101,7 +102,7 @@ namespace AOCMDB.Models.Data
         /// This will be used w/ a service to generate data (http://cloc.sourceforge.net/)
         /// </summary>
         [Display(Name = "Source Code Repositories", Description = "These are the direct paths to the source code, such as a TFS folder Path or GitHub Repo")]
-        public string SourceCodeRepositories { get; set; }
+        public virtual ICollection<SourceCodeRepository> SourceCodeRepositories { get; set; }
         //Convert to Virtual member and another object type to allow more advanced validation and storage of the code flower json.
     }
 }
