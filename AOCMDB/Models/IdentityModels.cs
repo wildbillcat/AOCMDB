@@ -3,6 +3,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using AOCMDB.Models.Data;
+using System.Linq;
+using System.Collections.Generic;
+using System.Data.Common;
 
 namespace AOCMDB.Models
 {
@@ -20,10 +24,20 @@ namespace AOCMDB.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+        public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public ApplicationDbContext(DbConnection connection) : base("DefaultConnection", throwIfV1Schema: false)
+        {
+        }
+
+        DbSet<Dependency> Dependencies { get; set; }
+        DbSet<Application> Applications { get; set; }
+        DbSet<Dependency> Databases { get; set; }
+        DbSet<Dependency> ExternalLogicalStorages { get; set; }
+        DbSet<Dependency> ServerOrAppliance { get; set; }
+        DbSet<Dependency> SoftwareOrFramework { get; set; }
 
         public static ApplicationDbContext Create()
         {
