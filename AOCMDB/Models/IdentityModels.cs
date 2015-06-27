@@ -28,16 +28,25 @@ namespace AOCMDB.Models
         {
         }
 
-        public ApplicationDbContext(DbConnection connection) : base("DefaultConnection", throwIfV1Schema: false)
+        public ApplicationDbContext(DbConnection connection) : base(connection, true)
         {
         }
 
         DbSet<Dependency> Dependencies { get; set; }
         DbSet<Application> Applications { get; set; }
-        DbSet<Dependency> Databases { get; set; }
-        DbSet<Dependency> ExternalLogicalStorages { get; set; }
-        DbSet<Dependency> ServerOrAppliance { get; set; }
-        DbSet<Dependency> SoftwareOrFramework { get; set; }
+        DbSet<DatabaseOrWarehouse> DatabaseOrWarehouses { get; set; }
+        DbSet<ExternalLogicalStorage> ExternalLogicalStorages { get; set; }
+        DbSet<ServerOrAppliance> ServerOrAppliances { get; set; }
+        DbSet<SoftwareOrFramework> SoftwareOrFrameworks { get; set; }
+        DbSet<SourceCodeRepository> SourceCodeRepositories { get; set; }
+
+        public class DefaultStartDataInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
+        {
+            protected override void Seed(ApplicationDbContext context)
+            {
+                base.Seed(context);
+            }
+        }
 
         public static ApplicationDbContext Create()
         {

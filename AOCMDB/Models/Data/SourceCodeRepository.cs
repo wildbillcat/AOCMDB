@@ -27,7 +27,13 @@ namespace AOCMDB.Models.Data
         [Required]
         public string RepositoryUrl { get; set; }
 
+        /// <summary>
+        /// This will be set my a separate service that scans source code. 
+        /// Should not be user editable.
+        /// </summary>
         public string CodeFlower { get; set; }
+
+        public DateTime CodeFlowerTimeStamp { get; set; }
 
     }
 }

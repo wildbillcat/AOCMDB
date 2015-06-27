@@ -11,7 +11,7 @@ namespace AOCMDB.Models.Data
     /// This refers to a DatabaseNode hosted on a server, such as a MS SQL Server, Oracle, or even MongoDB DatabaseNode.
     /// This should refer to the DatabaseNode itself, not the server which hosts it.
     /// </summary>
-    public class Database : Dependency
+    public class DatabaseOrWarehouse : Dependency
     {        
         /// <summary>
         /// The type of DatabaseNode
