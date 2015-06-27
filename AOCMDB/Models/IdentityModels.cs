@@ -32,9 +32,14 @@ namespace AOCMDB.Models
         {
         }
 
-        DbSet<Dependency> Dependencies { get; set; }
+        public DbSet<Dependency> Dependencies { get; set; }
+        public DbSet<Application> Applications { get; set; }
+        public DbSet<DatabaseOrWarehouse> DatabaseOrWarehouses { get; set; }
+        public DbSet<ExternalLogicalStorage> ExternalLogicalStorages { get; set; }
+        public  DbSet<ServerOrAppliance> ServerOrAppliances { get; set; }
+        public DbSet<SoftwareOrFramework> SoftwareOrFrameworks { get; set; }
+        public DbSet<SourceCodeRepository> SourceCodeRepositories { get; set; }
 
-        DbSet<SourceCodeRepository> SourceCodeRepositories { get; set; }
 
         public class DefaultStartDataInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
         {
@@ -48,5 +53,6 @@ namespace AOCMDB.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }
