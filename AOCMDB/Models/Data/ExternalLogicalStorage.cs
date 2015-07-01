@@ -10,6 +10,7 @@ namespace AOCMDB.Models.Data
     /// <summary>
     /// This would be a Network Share, NFS, Iscsi Lun, etc.
     /// </summary>
+    [TrackChanges]
     public class ExternalLogicalStorage : Dependency
     {
         /// <summary>

@@ -122,6 +122,14 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TrackerEnabledDbContext.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
+      <HintPath>..\packages\TrackerEnabledDbContext.Common.1.1.0\lib\net45\TrackerEnabledDbContext.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TrackerEnabledDbContext.Identity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
+      <HintPath>..\packages\TrackerEnabledDbContext.Identity.1.1.0\lib\net45\TrackerEnabledDbContext.Identity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
@@ -184,6 +192,14 @@
     <Compile Include="Migrations\201506270511149_Trying_out_inheritance_model_for_dependencies.cs" />
     <Compile Include="Migrations\201506270511149_Trying_out_inheritance_model_for_dependencies.Designer.cs">
       <DependentUpon>201506270511149_Trying_out_inheritance_model_for_dependencies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506302351400_Added_Audit_with_Tracker_Identity.cs" />
+    <Compile Include="Migrations\201506302351400_Added_Audit_with_Tracker_Identity.Designer.cs">
+      <DependentUpon>201506302351400_Added_Audit_with_Tracker_Identity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507010120059_Removed_Dependency_revision_since_audit_table_exists.cs" />
+    <Compile Include="Migrations\201507010120059_Removed_Dependency_revision_since_audit_table_exists.Designer.cs">
+      <DependentUpon>201507010120059_Removed_Dependency_revision_since_audit_table_exists.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1215,7 +1231,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\api\Data\" />
     <Folder Include="Controllers\Data\" />
-    <Folder Include="Views\Applications\" />
+    <Folder Include="Hubs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1224,6 +1240,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201506270511149_Trying_out_inheritance_model_for_dependencies.resx">
       <DependentUpon>201506270511149_Trying_out_inheritance_model_for_dependencies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506302351400_Added_Audit_with_Tracker_Identity.resx">
+      <DependentUpon>201506302351400_Added_Audit_with_Tracker_Identity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507010120059_Removed_Dependency_revision_since_audit_table_exists.resx">
+      <DependentUpon>201507010120059_Removed_Dependency_revision_since_audit_table_exists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

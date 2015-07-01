@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace AOCMDB.Models.Data
 {
+    [TrackChanges]
     public class SoftwareOrFramework : Dependency
     {
         

@@ -11,7 +11,8 @@ namespace AOCMDB.Models.Data
     {
         TeamFoundationServer,
         Git
-    }     
+    }
+    [TrackChanges]
     public class SourceCodeRepository
     {
         [Key]

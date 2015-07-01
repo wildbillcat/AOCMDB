@@ -13,16 +13,13 @@ namespace AOCMDB.Models.Data
     /// This generic class will allow dependency relationships to be made accross all objects in the database, 
     /// which will allow for dependency visualization with the dependency wheel: http://www.redotheweb.com/DependencyWheel/
     /// </summary>
+    [TrackChanges]
     public abstract class Dependency
     {
         [Key]
         [Required]
         public long Id { get; set; }
-
-        [Column(Order = 2)]
-        [Required]
-        public long DatabaseRevision { get; set; }
-
+        
         [Required]
         public string CreatedByUser { get; set; }
 

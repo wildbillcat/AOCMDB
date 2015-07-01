@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using TrackerEnabledDbContext.Identity;
 using AOCMDB.Models.Data;
 using System.Linq;
 using System.Collections.Generic;
@@ -22,13 +23,9 @@ namespace AOCMDB.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : TrackerIdentityContext<ApplicationUser>
     {
         public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
-
-        public ApplicationDbContext(DbConnection connection) : base(connection, true)
         {
         }
 
