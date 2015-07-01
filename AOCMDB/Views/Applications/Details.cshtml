@@ -1,0 +1,162 @@
+﻿@model AOCMDB.Models.Data.Application
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Application</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FriendlyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FriendlyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Details)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Details)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalApplicationID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GlobalApplicationID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SiteURL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SiteURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NetworkDiagramOrInventory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NetworkDiagramOrInventory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdministrativeProcedures)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdministrativeProcedures)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInformation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInformation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientConfigurationAndValidation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientConfigurationAndValidation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServerConfigurationandValidation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServerConfigurationandValidation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RecoveryProcedures)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecoveryProcedures)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Criticality)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Criticality)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationOwner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationOwner)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessOwner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessOwner)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

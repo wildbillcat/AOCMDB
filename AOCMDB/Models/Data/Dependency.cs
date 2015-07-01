@@ -19,15 +19,7 @@ namespace AOCMDB.Models.Data
         [Key]
         [Required]
         public long Id { get; set; }
-        
-        [Required]
-        public string CreatedByUser { get; set; }
-
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime CreatedAt { get; set; }
-
+       
         /// <summary>
         /// The Human Readable Name
         /// </summary>
