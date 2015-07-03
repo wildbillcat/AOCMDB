@@ -12,6 +12,7 @@ namespace AOCMDB.Models.Data
     /// <summary>
     /// This generic class will allow dependency relationships to be made accross all objects in the database, 
     /// which will allow for dependency visualization with the dependency wheel: http://www.redotheweb.com/DependencyWheel/
+    /// Article on Inheritance:http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-inheritance-with-the-entity-framework-in-an-asp-net-mvc-application
     /// </summary>
     [TrackChanges]
     public abstract class Dependency

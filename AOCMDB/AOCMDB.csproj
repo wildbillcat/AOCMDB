@@ -184,8 +184,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\api\Data\DependenciesController.cs" />
     <Compile Include="Controllers\Data\ApplicationsController.cs" />
-    <Compile Include="Controllers\Data\DependenciesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1237,15 +1237,9 @@
     <Content Include="Views\Applications\Details.cshtml" />
     <Content Include="Views\Applications\Edit.cshtml" />
     <Content Include="Views\Applications\Index.cshtml" />
-    <Content Include="Views\Dependencies\Create.cshtml" />
-    <Content Include="Views\Dependencies\Delete.cshtml" />
-    <Content Include="Views\Dependencies\Details.cshtml" />
-    <Content Include="Views\Dependencies\Edit.cshtml" />
-    <Content Include="Views\Dependencies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\api\Data\" />
     <Folder Include="Hubs\" />
   </ItemGroup>
   <ItemGroup>
