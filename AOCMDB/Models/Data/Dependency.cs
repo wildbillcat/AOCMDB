@@ -43,11 +43,6 @@ namespace AOCMDB.Models.Data
         public string Details { get; set; }
 
         public virtual ICollection<Dependency> DownstreamDependencies { get; set; }
-        
-        public void AddUpstreamDependency(Dependency dependency)
-        {
-            dependency.DownstreamDependencies.Add(this);
-        }
 
     }
 }
