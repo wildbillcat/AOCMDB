@@ -16,7 +16,7 @@ namespace AOCMDB
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/v{APIVersion}/{controller}/{id}",
+                routeTemplate: "api/{namespace}/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

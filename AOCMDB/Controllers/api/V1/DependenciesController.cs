@@ -12,16 +12,16 @@ using System.Web.Http.Description;
 using AOCMDB.Models;
 using AOCMDB.Models.Data;
 
-namespace AOCMDB.Controllers.api.Data
+namespace AOCMDB.Controllers.api.V1
 {
     public class DependenciesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Dependencies
-        public IQueryable<Dependency> GetDependencies()
+        public List<Dependency> GetDependencies()
         {
-            return db.Dependencies;
+            return db.Dependencies.ToList();
         }
 
         // GET: api/Dependencies/5

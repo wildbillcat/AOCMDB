@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AOCMDB.Controllers.api.Data
+namespace AOCMDB.Controllers.api.V1
 {
     /// <summary>
     /// This will note the API methods required of any controller that exposes the Version 1
