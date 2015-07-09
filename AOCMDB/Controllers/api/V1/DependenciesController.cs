@@ -14,7 +14,7 @@ using AOCMDB.Models.Data;
 
 namespace AOCMDB.Controllers.api.V1
 {
-    public class DependenciesController : ApiController
+    public class DependenciesController : ApiController, IDependenciesControllerAPIV1<Dependency>
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -40,11 +40,11 @@ namespace AOCMDB.Controllers.api.V1
 
         // PUT: api/Dependencies/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutDependency(long upstreamId, long downstreamId)
+        public async Task<IHttpActionResult> PutDependencyDownStreamDependency(long Id, long downstreamId)
         {
             try
             {
-                Task<Dependency> upstreamDependencyTask = db.Dependencies.FindAsync(upstreamId);
+                Task<Dependency> upstreamDependencyTask = db.Dependencies.FindAsync(Id);
                 Task<Dependency> downstreamDependencyTask = db.Dependencies.FindAsync(downstreamId);
                 
                 await Task.WhenAll(upstreamDependencyTask, downstreamDependencyTask);
@@ -61,7 +61,7 @@ namespace AOCMDB.Controllers.api.V1
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DependencyExists(upstreamId) || !DependencyExists(downstreamId))
+                if (!DependencyExists(Id) || !DependencyExists(downstreamId))
                 {
                     return NotFound();
                 }
@@ -89,21 +89,21 @@ namespace AOCMDB.Controllers.api.V1
             return CreatedAtRoute("DefaultApi", new { id = dependency.Id }, dependency);
         }
 
-        // DELETE: api/Dependencies/5
-        [ResponseType(typeof(Dependency))]
-        public async Task<IHttpActionResult> DeleteDependency(long id)
-        {
-            Dependency dependency = await db.Dependencies.FindAsync(id);
-            if (dependency == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/Dependencies/5
+        //[ResponseType(typeof(Dependency))]
+        //public async Task<IHttpActionResult> DeleteDependency(long id)
+        //{
+        //    Dependency dependency = await db.Dependencies.FindAsync(id);
+        //    if (dependency == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.Dependencies.Remove(dependency);
-            await db.SaveChangesAsync();
+        //    db.Dependencies.Remove(dependency);
+        //    await db.SaveChangesAsync();
 
-            return Ok(dependency);
-        }
+        //    return Ok(dependency);
+        //}
 
         protected override void Dispose(bool disposing)
         {

@@ -15,34 +15,40 @@ namespace AOCMDB.Controllers.api.V1
     interface IDependenciesControllerAPIV1<T>
     {
         [ResponseType(typeof(List<T>))]
-        public async Task<IHttpActionResult> Get(string APIVersion);
+        Task<IHttpActionResult> GetDependencies();
 
         [ResponseType(typeof(T))]
-        public async Task<IHttpActionResult> Get(long Id);
-
-        [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> GetName(long Id);
-
-        [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> GetFriendlyName(long Id);
-
-        [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> GetDetails(long Id);
-
-        [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> SetName(long Id, string Value);
-
-        [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> SetFriendlyName(long Id, string Value);
-
-        [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> SetDetails(long Id, string Value);
-
-        [ResponseType(typeof(List<T>))]
-        public async Task<IHttpActionResult> GetDownstreamDependencies();
+        Task<IHttpActionResult> GetDependency(long Id);
 
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutDownStreamDependency(long Id, long DownStreamId);
+        Task<IHttpActionResult> PutDependency(long id, T dependency);
+
+        [ResponseType(typeof(T))]
+        Task<IHttpActionResult> PostDependency(T dependency);
+
+        [ResponseType(typeof(string))]
+        Task<IHttpActionResult> GetDependencyName(long Id);
+
+        [ResponseType(typeof(string))]
+        Task<IHttpActionResult> GetDependencyFriendlyName(long Id);
+
+        [ResponseType(typeof(string))]
+        Task<IHttpActionResult> GetDependencyDetails(long Id);
+
+        [ResponseType(typeof(void))]
+        Task<IHttpActionResult> PutDependencyName(long upstreamId, string downstreamId);
+
+        [ResponseType(typeof(string))]
+        Task<IHttpActionResult> PutDependencyFriendlyName(long Id, string Value);
+
+        [ResponseType(typeof(string))]
+        Task<IHttpActionResult> PutDependencyDetails(long Id, string Value);
+
+        [ResponseType(typeof(List<T>))]
+        Task<IHttpActionResult> GetDependencyDownstreamDependencies();
+
+        [ResponseType(typeof(void))]
+        Task<IHttpActionResult> PutDependencyDownStreamDependency(long Id, long DownStreamId);
 
     }
 }
