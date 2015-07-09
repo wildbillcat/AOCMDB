@@ -19,9 +19,10 @@ namespace AOCMDB.Controllers.api.V1
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Dependencies
-        public List<Dependency> GetDependencies()
+        [ResponseType(typeof(List<Dependency>))]
+        public async Task<IHttpActionResult> GetDependencies()
         {
-            return db.Dependencies.ToList();
+            return Ok(await db.Dependencies.ToListAsync());
         }
 
         // GET: api/Dependencies/5

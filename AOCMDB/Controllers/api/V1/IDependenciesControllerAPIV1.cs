@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace AOCMDB.Controllers.api.V1
 {
@@ -12,27 +14,35 @@ namespace AOCMDB.Controllers.api.V1
     /// </summary>
     interface IDependenciesControllerAPIV1<T>
     {
-        ICollection<T> Get(string APIVersion);
+        [ResponseType(typeof(List<T>))]
+        public async Task<IHttpActionResult> Get(string APIVersion);
 
-        T Get(string APIVersion, long Id);
+        [ResponseType(typeof(T))]
+        public async Task<IHttpActionResult> Get(long Id);
 
-        string GetName(string APIVersion, long Id);
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> GetName(long Id);
 
-        string GetFriendlyName(string APIVersion, long Id);
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> GetFriendlyName(long Id);
 
-        string GetDetails(string APIVersion, long Id);
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> GetDetails(long Id);
 
-        string SetName(string APIVersion, long Id, string Value);
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> SetName(long Id, string Value);
 
-        string SetFriendlyName(string APIVersion, long Id, string Value);
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> SetFriendlyName(long Id, string Value);
 
-        string SetDetails(string APIVersion, long Id, string Value);
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> SetDetails(long Id, string Value);
 
-        ICollection<T> GetDownstreamDependencies(string APIVersion);
+        [ResponseType(typeof(List<T>))]
+        public async Task<IHttpActionResult> GetDownstreamDependencies();
 
-        T GetDownstreamDependencies(string APIVersion, long Id);
-
-        void AddDownStreamDependency(string APIVersion, long Id, long DownStreamId);
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutDownStreamDependency(long Id, long DownStreamId);
 
     }
 }
